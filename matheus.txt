@@ -1,0 +1,4 @@
+Olá, meu nome é Matheus Veloso e sou do curso de sistemas da informação.
+Trabalho como programador na área de SAP, utilizando a linguagem ABAP e um pouco de javaScript em aplicações web SAP.
+Gosto muito de estudar inglês e fazer atividades que me ajudem cada dia mais com isso.
+Espero com o curso ir muito além das habilidades técnicas, mas também do trabalho em grupo.
