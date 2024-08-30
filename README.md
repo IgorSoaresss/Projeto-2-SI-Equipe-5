@@ -20,10 +20,10 @@ TYPE flow é uma plataforma web dedicada à exploração e compreensão dos tipo
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Autores
-- **Matheus veloso** - *Desenvolvedor Principal* - [velosomtcesar](https://github.com/velosomtcesar)
-- **Eduardo americo** - *Desenvolvedor Principal* - [EduardoAmerico](https://github.com/EduardoAmerico)
-- **Igor soares** - *Desenvolvedor Principal* - [IgorSoaresss](https://github.com/IgorSoaresss)
-- **Karoline santiago** - *Desenvolvedor Principal* - [kass200](https://github.com/kass200)
-- **João de medeiros** - *Desenvolvedor Principal* - [joca-000](https://github.com/joca-000)
-- **Caio felipe** - *Desenvolvedor Principal* - [cfsr-school](https://github.com/cfsr-school)
-- **Arthur barros** - *Desenvolvedor Principal* - [arthurbarros1](https://github.com/arthurbarros1)
+- **Matheus veloso** - *Arquiteto de dados* - [velosomtcesar](https://github.com/velosomtcesar)
+- **Eduardo americo** - *Gerente do projeto* - [EduardoAmerico](https://github.com/EduardoAmerico)
+- **Igor soares** - *Arquiteto de soluções* - [IgorSoaresss](https://github.com/IgorSoaresss)
+- **Karoline santiago** - *Design* - [kass200](https://github.com/kass200)
+- **João de medeiros** - *Dev. back end* - [joca-000](https://github.com/joca-000)
+- **Caio felipe** - *Dev. front end* - [cfsr-school](https://github.com/cfsr-school)
+- **Arthur barros** - *Arquiteto de projeto* - [arthurbarros1](https://github.com/arthurbarros1)
