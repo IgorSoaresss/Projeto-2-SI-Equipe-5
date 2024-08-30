@@ -20,10 +20,10 @@ TypeFlow é uma plataforma web dedicada à exploração e compreensão dos tipos
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Autores
-- **Matheus veloso** - *Arquiteto de dados* - [velosomtcesar](https://github.com/velosomtcesar)
-- **Eduardo américo** - *Gerente do projeto* - [EduardoAmerico](https://github.com/EduardoAmerico)
-- **Igor soares** - *Arquiteto de soluções* - [IgorSoaresss](https://github.com/IgorSoaresss)
-- **Karoline santiago** - *Design* - [kass200](https://github.com/kass200)
-- **João de medeiros** - *Dev. back end* - [joca-000](https://github.com/joca-000)
-- **Caio felipe** - *Dev. front end* - [cfsr-school](https://github.com/cfsr-school)
-- **Arthur barros** - *Arquiteto de projeto* - [arthurbarros1](https://github.com/arthurbarros1)
+- **Matheus Veloso** - *Arquiteto de dados* - [velosomtcesar](https://github.com/velosomtcesar)
+- **Eduardo Américo** - *Gerente do projeto* - [EduardoAmerico](https://github.com/EduardoAmerico)
+- **Igor Soares** - *Arquiteto de soluções* - [IgorSoaresss](https://github.com/IgorSoaresss)
+- **Karoline Santiago** - *Design* - [kass200](https://github.com/kass200)
+- **João de Medeiros** - *Dev. back end* - [joca-000](https://github.com/joca-000)
+- **Caio Felipe** - *Dev. front end* - [cfsr-school](https://github.com/cfsr-school)
+- **Arthur Barros** - *Arquiteto de projeto* - [arthurbarros1](https://github.com/arthurbarros1)
