@@ -27,3 +27,7 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 - **João de Medeiros** - *Dev. back end* - [joca-000](https://github.com/joca-000)
 - **Caio Felipe** - *Dev. front end* - [cfsr-school](https://github.com/cfsr-school)
 - **Arthur Barros** - *Arquiteto de projeto* - [arthurbarros1](https://github.com/arthurbarros1)
+
+## Site do grupo 
+
+- **Link**: [Grupo5](https://sites.google.com/cesar.school/equipe5/)
