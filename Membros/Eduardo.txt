@@ -1,0 +1,10 @@
+Olá, meu nome é Eduardo Américo.
+
+Sou um estudante do segundo período do curso de sistemas de informação da Cesar School, 
+e tenho bastante interesse na área de Inteligência Artificial e desenvolvimento de jogos. 
+
+Até agora na vida acadêmica eu tive contato com Python (Já tendo um projeto realizado utilizado essa linguagem), 
+C, Html e css (Também ja tenho experiência com alguns projetos.)
+
+Ainda não tenho nenhuma experiência profissional. Por isso estou bem motivado e ansioso para 
+a segunda disciplina de projetos, ja que é o contato mais próximo que terei de um ambiente profissional.
