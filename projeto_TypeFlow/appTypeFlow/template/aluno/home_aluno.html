@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TypeFlow{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Fonte com base no protótipo que criamos*/
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* barra de navegação */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #26A013;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-left, .nav-center, .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .nav-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+        }
+
+        .nav-icon {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+            cursor: pointer;
+        }
+
+        /*  Sidebar */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- construção com base no protótipo da Barra de Navegação -->
+    <nav class="navbar">
+        <!-- Alteração para Logo do Projeto na Esquerda -->
+        <div class="nav-left">
+            <a href="{% url 'home_aluno' %}">
+                <img src="/static/img/Logo-TypeFlow.png" alt="TypeFlow Logo" class="logo">
+            </a>
+        </div>
+
+        <!-- Nome do Projeto no Centro -->
+        <div class="nav-center">
+            <h1 class="nav-title">TypeFlow</h1>
+        </div>
+
+        <!-- Ícone de Configurações à Direita com a sidebar -->
+        <div class="nav-right">
+            <div class="nav-icon" onclick="toggleSidebar()">
+                <img src="{% static 'images/settings-icon.png' %}" alt="Configurações" class="settings-icon">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Barra Lateral (Sidebar) -->
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+        <a href="#">Perfil</a>
+        <a href="#">Contate-nos</a>
+        <a href="#">Configurações</a>
+    </div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TypeFlow. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para controlar a Sidebar -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.style.width === '250px') {
+                sidebar.style.width = '0';
+            } else {
+                sidebar.style.width = '250px';
+            }
+        }
+    </script>
+</body>
+</html>
