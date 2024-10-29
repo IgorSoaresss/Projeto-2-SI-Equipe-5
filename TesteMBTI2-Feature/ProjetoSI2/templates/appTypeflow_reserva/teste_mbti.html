@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação Teste MBTI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste MBTI Simplificado</h1>
+    <form action="{% url 'calcular_mbti' %}" method="post">
+        {% csrf_token %}
+        
+        <label>Você se sente energizado ao socializar em eventos? (Extroversão / Introversão)</label><br>
+        <input type="radio" name="E_I" value="sim" required> Sim
+        <input type="radio" name="E_I" value="nao" required> Não<br><br>
+
+        <label>Você gosta de detalhes práticos mais do que conceitos abstratos? (Sensação / Intuição)</label><br>
+        <input type="radio" name="S_N" value="sim" required> Sim
+        <input type="radio" name="S_N" value="nao" required> Não<br><br>
+
+        <label>Ao tomar decisões, você prioriza a lógica e a objetividade? (Pensamento / Sentimento)</label><br>
+        <input type="radio" name="T_F" value="sim" required> Sim
+        <input type="radio" name="T_F" value="nao" required> Não<br><br>
+
+        <label>Você gosta de manter sua vida organizada e planejada? (Julgamento / Percepção)</label><br>
+        <input type="radio" name="J_P" value="sim" required> Sim
+        <input type="radio" name="J_P" value="nao" required> Não<br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    {% if resultado %}
+        <h2>Seu tipo MBTI é: {{ resultado }}</h2>
+    {% endif %}
+</body>
+</html>
