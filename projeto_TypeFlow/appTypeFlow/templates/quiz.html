@@ -1,0 +1,15 @@
+<!-- myapp/templates/quiz.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MBTI Quiz</title>
+</head>
+<body>
+    <h1>Responda o Teste MBTI</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
