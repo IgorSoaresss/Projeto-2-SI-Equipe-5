@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Olá, este é o TypeFlow!")
+def base(request):
+    return render(request, 'base.html')
 
 @login_required
 def home_aluno(request):

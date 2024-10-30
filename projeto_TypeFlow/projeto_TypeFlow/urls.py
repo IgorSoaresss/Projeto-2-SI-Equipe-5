@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('appTypeFlow', include('appTypeflow')),
     path('home/', views.home_aluno, name='home_aluno'),
+    path('teste/', views.teste_mbti, name='teste_mbti'),
 ]
