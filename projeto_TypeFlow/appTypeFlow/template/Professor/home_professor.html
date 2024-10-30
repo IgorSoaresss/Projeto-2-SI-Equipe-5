@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TypeFlow{% endblock %}</title>
+    
+    <!-- Link do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIqP0M7i9THCs73AMwKf1f6tJr94ibVYZFz0pC3a4Xg4l48zhT" crossorigin="anonymous">
+    
+    <!-- Fonte Quicksand -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Barra de navegação */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px; /* Aumenta o espaço interno */
+            background-color: #6A0DAD; /* Cor roxa */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 70px; /* Altura da barra de navegação */
+        }
+
+        .nav-left, .nav-right {
+            flex: 1; /* Garante espaço igual nas laterais */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 150px; /* Define largura fixa para alinhamento */
+        }
+
+        .nav-center {
+            flex: 2; /* Garante que o título ocupe o centro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        .nav-icon {
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 40px;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .closebtn {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            font-size: 36px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Centralizando o container de botões */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .custom-button {
+            background-color: #b0b0b0;
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .custom-button:hover {
+            background-color: #8f8f8f;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0; /* Espaçamento do footer */ 
+            color: rgb(77, 76, 76); /* Cor do texto do footer */
+        }
+        .mbti-title {
+          text-align: center; 
+          font-size: 24px; 
+          margin: 20px 0; 
+          position: relative; 
+        }
+
+        .mbti-title::after {
+          content: ""; 
+          display: block; 
+          width: 50%; 
+          height: 2px; 
+          background-color: #000000; 
+         margin: 10px auto; 
+       }
+       .mbti-paragraph {
+          text-align: center; 
+          font-size: 16px; 
+          max-width: 800px; 
+          margin: 20px auto;
+          line-height: 1.5; 
+       }
+ 
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home_aluno' %}">
+                <img src="/static/img/Logo-TypeFlow.png" alt="TypeFlow Logo" class="logo">
+            </a>
+        </div>
+        <div class="nav-center">
+            <h1 class="nav-title">TypeFlow</h1>
+        </div>
+        <div class="nav-right">
+            <div class="nav-icon" onclick="toggleSidebar()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+        <a href="#">Perfil</a>
+        <a href="#">Contate-nos</a>
+        <a href="#">Configurações</a>
+    </div>
+
+    <!-- Container dos Botões -->
+    <div class="button-container">
+        <button class="custom-button">Faça seu teste</button>
+        <button class="custom-button">Turmas</button>
+    </div>
+    <h1 class="mbti-title">Como o MBTI influencia na sala de aula</h1>
+    <!-- Parágrafo centralizado -->
+<p class="mbti-paragraph">
+    <strong>Estilos de Aprendizagem:</strong> O MBTI ajuda a identificar como os alunos processam informações. Por exemplo, alunos que preferem Intuição tendem a se interessar por conceitos abstratos, enquanto os que preferem Sensação focam em detalhes concretos. Isso permite que os professores adaptem suas abordagens de ensino.
+    <br>
+    <strong>Colaboração e Trabalho em Grupo:</strong> A diversidade de tipos de personalidade enriquece as interações. Alunos extrovertidos podem estimular a participação, enquanto introvertidos oferecem reflexões mais profundas. Reconhecer essas diferenças promove um ambiente colaborativo.
+    <br>
+    <strong>Motivação e Engajamento:</strong> O MBTI pode afetar a motivação. Alunos que preferem Sentimento podem se engajar mais em atividades de apoio emocional, enquanto aqueles que preferem Pensamento se sentem motivados por desafios lógicos. Adaptar as atividades a essas preferências aumenta o engajamento.
+    <br>
+    <strong>Gestão de Conflitos:</strong> Conhecer os tipos de personalidade ajuda na resolução de conflitos, permitindo que os professores promovam a empatia e a comunicação.
+    Em resumo, o MBTI oferece insights valiosos para personalizar o ensino e criar um ambiente de aprendizado mais eficaz e harmonioso.
+</p>
+
+    <!-- Conteúdo Principal -->
+    <!-- <main class="container mt-5">
+        {% block content %}
+        {% endblock %}
+    </main>-->
+
+    <footer class="text-center mt-5">
+        <p>&copy; 2024 TypeFlow. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para controle da Sidebar -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.style.width = sidebar.style.width === '250px' ? '0' : '250px';
+        }
+    </script>
+</body>
+</html>
