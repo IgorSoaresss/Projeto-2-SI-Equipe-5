@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste de Personalidade</title>
+  <title>Teste de Personalidade - Parte 2</title>
   <style>
     /* Estilos gerais */
     * {
@@ -22,7 +22,7 @@
     .container {
       width: 100%;
       min-height: 100vh;
-      background: linear-gradient(to right, #a8e063 20%, #c7e8a1 40%, #ffffff 100%);
+      background: linear-gradient(to right, #8e44ad 20%, #d2b4de 40%, #ffffff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,7 +42,7 @@
     .progress {
       width: 0%;
       height: 100%;
-      background-color: #4CAF50;
+      background-color: #9b59b6;
       transition: width 0.3s;
     }
 
@@ -73,11 +73,16 @@
       text-align: left;
     }
 
+    /* Estilo aprimorado para o título */
     .text-container h1 {
-      font-size: 1.8em;
-      color: #4CAF50;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-      margin-bottom: 10px;
+      font-size: 2.5em; /* Tamanho grande para impacto */
+      color: #a569bd; /* Roxo claro para contraste */
+      text-align: center; /* Centralizado */
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), /* Sombra branca para contraste suave */
+                 1px 1px 10px rgba(0, 0, 0, 0.4); /* Sombra escura para profundidade */
+      padding: 10px 0;
+      letter-spacing: 1px; /* Espaçamento entre letras */
     }
 
     .question-list {
@@ -87,7 +92,7 @@
       max-height: 60vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: #4CAF50 #ffffff;
+      scrollbar-color: #9b59b6 #ffffff;
     }
 
     .question-item {
@@ -150,32 +155,28 @@
     .options label:nth-child(5) { font-size: 0.9em; color: #333; }
 
     .options input[type="radio"]:checked + span {
-      background-color: #4CAF50;
+      background-color: #9b59b6;
     }
 
+    /* Estilo aprimorado para o botão "próxima" */
     .proximo-btn {
-      padding: 12px 25px;
-      font-size: 1.1em;
-      background-color: #4CAF50;
+      padding: 15px 30px;
+      font-size: 1.2em; /* Aumentado para maior visibilidade */
+      background-color: #6c3483; /* Cor mais escura para contraste */
       color: white;
-      border: none;
+      border: 2px solid #9b59b6; /* Adiciona um contorno */
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 25px;
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
       transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
       display: none;
     }
 
     .proximo-btn:hover {
-      background-color: #388E3C;
-      transform: translateY(-2px);
-      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .proximo-btn:active {
-      transform: translateY(1px);
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #8e44ad; /* Intensifica a cor no hover */
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
     }
   </style>
 </head>
@@ -192,7 +193,7 @@
       </div>
 
       <div class="text-container">
-        <h1>Como você interage com o mundo e onde obtém e dirige a sua energia</h1>
+        <h1>Como você percebe e assimila as informações?</h1>
         <ul class="question-list" id="question-list">
           <!-- As perguntas serão carregadas aqui -->
         </ul>
@@ -205,37 +206,37 @@
 
   <script>
     const questions = [
-      "Você é mais falante ou ouvinte?",
-      "Você é mais aberto ou reservado?",
-      "Você é mais impulsivo ou retraído?",
-      "Você é mais social ou individual?",
-      "Você age e depois pensa ou pensa e depois age?",
-      "Você é mais entusiasmado ou quieto?",
-      "Você prefere barulho ou silêncio?",
-      "Você prefere ser expressivo ou contido?",
-      "Você é mais força ou delicadeza?",
-      "Você é mais agitado ou calmo?",
-      "Você é mais expansivo ou introspectivo?",
-      "Você fala mais do que ouve ou ouve mais do que fala?"
+      "Você costuma se manter com os pés no chão ou vive cheio de ideias?",
+      "Você prefere confiar em sua experiência ou no seu instinto?",
+      "Você tende a focar mais nos detalhes ou na visão geral das coisas?",
+      "Você se considera mais prático ou imaginativo?",
+      "Você prefere se comunicar de forma específica e literal ou através de metáforas e analogias?",
+      "Você se baseia mais na realidade ou na intuição ao tomar decisões?",
+      "O que é mais importante para você: segurança ou liberdade?",
+      "Você tende a viver mais focado no presente ou no futuro?",
+      "Você prefere lidar com fatos concretos ou explorar possibilidades?",
+      "Você se considera mais uma pessoa que faz ou que cria?",
+      "Você prefere o que é concreto ou o que é abstrato?",
+      "Você entende melhor informações apresentadas passo a passo ou que cheguem através de saltos e de maneira indireta?"
     ];
 
     const labels = [
-      ["Mais Falante", "Mais Ouvinte"],
-      ["Mais Aberto", "Mais Reservado"],
-      ["Mais Impulsivo", "Mais Retraído"],
-      ["Mais Social", "Mais Individual"],
-      ["Age antes de pensar", "Pensa antes de agir"],
-      ["Mais Entusiasmado", "Mais Quieto"],
-      ["Prefere Barulho", "Prefere Silêncio"],
-      ["Mais Expressivo", "Mais Contido"],
-      ["Mais Força", "Mais Delicadeza"],
-      ["Mais Agitado", "Mais Calmo"],
-      ["Mais Expansivo", "Mais Introspectivo"],
-      ["Fala mais do que ouve", "Ouve mais do que fala"]
+      ["Pés no chão", "Cheio de ideias"],
+      ["Experiência", "Instinto"],
+      ["Visão focada em detalhes", "Visão Global"],
+      ["Praticidade", "Imaginação"],
+      ["Específico e literal", "Metáfora e Analogia"],
+      ["Realidade", "Intuição"],
+      ["Segurança", "Liberdade"],
+      ["Presente", "Futuro"],
+      ["Fatos", "Possibilidades"],
+      ["Faz", "Cria"],
+      ["Concreto", "Abstrato"],
+      ["passo a passo", "saltos e de forma indireta "]
     ];
 
     const totalQuestions = questions.length;
-    let currentQuestion = 0; // Inicializa para a primeira pergunta
+    let currentQuestion = 0;
 
     function loadQuestions() {
       const questionList = document.getElementById("question-list");
@@ -273,7 +274,8 @@
         updateProgress();
       }
 
-      if (currentQuestion === totalQuestions - 1) {
+      // Exibe o botão "próxima" somente quando `currentQuestion` alcançar o índice da última pergunta
+      if (currentQuestion === totalQuestions - 1 && index === currentQuestion) {
         document.getElementById("next-page-btn").style.display = "inline-block";
       }
     }

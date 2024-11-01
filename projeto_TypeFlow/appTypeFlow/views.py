@@ -6,10 +6,9 @@ from django.contrib.auth.decorators import login_required
 def base(request):
     return render(request, 'base.html')
 
-@login_required
+def teste_personalidade(request):
+    # Dados e lógica para o teste de personalidade
+    return render(request, 'teste/teste_personalidade.html')
+
 def home_aluno(request):
-    # buscar dados relacionados ao aluno, como progresso, testes realizados...
-    context = {
-        'nome_aluno': request.user.first_name,  
-    }
-    return render(request, 'aluno/home.html', context)
+    return render(request, 'aluno/home.html')
