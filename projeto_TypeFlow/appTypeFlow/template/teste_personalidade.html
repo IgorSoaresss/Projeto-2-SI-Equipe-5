@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste de Personalidade</title>
+  <style>
+    /* Estilos gerais */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      height: auto;
+      background: linear-gradient(to left, #a8e063, #56ab2f);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    /* Barra de progresso */
+    .progress-bar {
+      width: 75%;
+      height: 25px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      top: 100px;
+      /* Margem superior de 20px */
+      left: 50%;
+      transform: translateX(0%);
+      transform: translateY(150%);
+      z-index: 100;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background-color: #4CAF50;
+      transition: width 0.3s;
+    }
+
+    /* Conteúdo principal */
+    .content {
+      display: flex;
+      align-items: flex-start;
+      width: 80%;
+      max-width: 1200px;
+      margin-top: 100px;
+      margin-bottom: 120px;
+      flex-grow: 1;
+    }
+
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .image-container img {
+      max-width: 120px;
+      height: auto;
+    }
+
+    .text-container {
+      flex: 3;
+      color: #333;
+      font-size: 1.5em;
+    }
+
+    /* Pergunta e opções */
+    .question-container {
+      color: #333;
+      font-size: 1em;
+      /* Tamanho da fonte da pergunta */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 90px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 60px;
+      width: 100%;
+    }
+
+    .options label {
+      text-align: center;
+      font-size: 2em;
+      /* Tamanho da fonte das opções */
+      color: #333;
+      flex: 1;
+      margin: 0 10px;
+      /* Espaçamento entre as opções */
+    }
+
+    .options input[type="radio"] {
+      display: none;
+    }
+
+    .options label span {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .options input[type="radio"]:checked+span {
+      background-color: #ffffff;
+    }
+
+    .options label:first-child {
+      /* Mais falante */
+      font-size: 0.9em;
+      margin-right: 30px;
+      /* Ajuste de espaçamento */
+    }
+
+    .options label:last-child {
+      /* Mais ouvinte */
+      font-size: 0.9em;
+      margin-left: 30px;
+      /* Ajuste de espaçamento */
+    }
+
+    .proximo-btn {
+      position: absolute;
+      bottom: -2520px;
+      /* Distância da parte inferior */
+      right: 20px;
+      /* Distância da parte direita */
+      padding: 10px 20px;
+      /* Espaçamento interno do botão */
+      font-size: 1em;
+      background-color: #4CAF50;
+      /* Cor de fundo do botão */
+      color: white;
+      /* Cor do texto */
+      border: none;
+      /* Sem borda */
+      border-radius: 5px;
+      /* Bordas arredondadas */
+      cursor: pointer;
+      /* Cursor de mão ao passar o mouse */
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+
+    <div class="content">
+      <div class="image-container">
+        <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem">
+      </div>
+
+      <div class="text-container">
+        <p>Como você interage com o mundo e onde obtém e dirige a sua energia</p>
+
+        <div class="question-container">
+          <p>1. Você é mais falante ou ouvinte?</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="resposta1" value="falante1">
+              <span></span>
+              <br>mais falante
+            </label>
+            <label>
+              <input type="radio" name="resposta1" value="falante2">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta1" value="neutro">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta1" value="ouvinte2">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta1" value="ouvinte1">
+              <span></span>
+              <br>mais ouvinte
+            </label>
+          </div>
+        </div>
+
+        <div class="question-container">
+          <p>2. Você é mais Aberto ou Reservado?</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="resposta2" value="aberto1">
+              <span></span>
+              <br>mais aberto
+            </label>
+            <label>
+              <input type="radio" name="resposta2" value="aberto">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta2" value="neutro">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta2" value="reservado2">
+              <span></span>
+            </label>
+            <label>
+              <input type="radio" name="resposta2" value="reservado">
+              <span></span>
+              <br>mais reservado
+            </label>
+          </div>
+        </div>
+
+        <div class="question-container">
+            <p>3. Você é mais impulsivo ou retacado?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta3" value="impulsivo1">
+                <span></span>
+                <br>mais impulsivo
+              </label>
+              <label>
+                <input type="radio" name="resposta3" value="impulsivo2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta3" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta3" value="retacado">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta3" value="retacado1">
+                <span></span>
+                <br>mais retacado
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>4. Você é mais social e depois individual?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta4" value="social1">
+                <span></span>
+                <br>mais social
+              </label>
+              <label>
+                <input type="radio" name="resposta4" value="social2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta4" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta4" value="individual2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta4" value="individual1">
+                <span></span>
+                <br>mais individual
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>5. Você age e depois pensa ou pensa depois age?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta5" value="age e depois pensa1">
+                <span></span>
+                <br>age e depois pensa
+              </label>
+              <label>
+                <input type="radio" name="resposta5" value="age e depois pensa2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta5" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta5" value="pensa depois age2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta5" value="pensa depois age1">
+                <span></span>
+                <br>pensa depois age
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>6. Você é mais entusiasmado ou quieto?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta6" value="entusiasmado1">
+                <span></span>
+                <br>mais entusiasmado
+              </label>
+              <label>
+                <input type="radio" name="resposta6" value="entusiasmado2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta6" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta6" value="quieto2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta6" value="quieto1">
+                <span></span>
+                <br>mais quieto
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>7. Você prefere barulho ou silencio?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta7" value="barulho1">
+                <span></span>
+                <br>barulho
+              </label>
+              <label>
+                <input type="radio" name="resposta7" value="barulho2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta7" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta7" value="silencio2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta7" value="silencio1">
+                <span></span>
+                <br>silencio
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>8. Você prefere expressivo ou contido?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta8" value="expressivo1">
+                <span></span>
+                <br>expressivo
+              </label>
+              <label>
+                <input type="radio" name="resposta8" value="expressivo2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta8" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta8" value="contido2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta8" value="contido1">
+                <span></span>
+                <br>contido
+              </label>
+            </div>
+          </div>
+
+          <class="question-container">
+            <p>9. Você é mais força ou delicadeza?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta9" value="força1">
+                <span></span>
+                <br>mais força
+              </label>
+              <label>
+                <input type="radio" name="resposta9" value="força2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta9" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta9" value="delicadeza2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta9" value="delicadeza1">
+                <span></span>
+                <br>mais delicadeza
+              </label>
+            </div>
+
+          <div class="question-container">
+            <p>10. Você é mais agitação ou calmaria?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta10" value="agitação1">
+                <span></span>
+                <br>mais agitação
+              </label>
+              <label>
+                <input type="radio" name="resposta10" value="agitação2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta10" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta10" value="calmaria2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta10" value="calmaria1">
+                <span></span>
+                <br>mais calmaria
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>11. Você é mais expansivo ou introspectivo?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta11" value="expansivo1">
+                <span></span>
+                <br>mais expansivo
+              </label>
+              <label>
+                <input type="radio" name="resposta11" value="expansivo2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta11" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta11" value="introspectivo2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta11" value="introspectivo1">
+                <span></span>
+                <br>mais introspectivo
+              </label>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <p>12. Você fala mais do que ouve ou ouve mais do que fala?</p>
+            <div class="options">
+              <label>
+                <input type="radio" name="resposta12" value="fala mais do que ouve1">
+                <span></span>
+                <br>fala mais do que ouve
+              </label>
+              <label>
+                <input type="radio" name="resposta12" value="fala mais do que ouve2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta12" value="neutro">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta12" value="ouve mais do que fala2">
+                <span></span>
+              </label>
+              <label>
+                <input type="radio" name="resposta12" value="ouve mais do que fala1">
+                <span></span>
+                <br>ouve mais do que fala
+              </label>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<button class="proximo-btn">Próxima</button> </div>
+</body>
+</html>
