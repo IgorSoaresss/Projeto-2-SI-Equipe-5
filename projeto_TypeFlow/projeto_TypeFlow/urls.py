@@ -16,12 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from . import views
+from appTypeFlow import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('appTypeFlow', include('appTypeflow')),
+    path('appTypeFlow/', include('appTypeFlow.urls')),
     path('home/', views.home_aluno, name='home_aluno'),
+<<<<<<< HEAD
     path('appTypeFlow', include('typeflow.urls')),
     path('teste_personalidade/', views.teste_personalidade, name='teste_personalidade'),
+=======
+    path('', views.home_aluno, name='home_aluno'),
+>>>>>>> origin/feature-Home
 ]
