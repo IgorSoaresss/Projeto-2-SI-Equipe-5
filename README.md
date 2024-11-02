@@ -1,17 +1,17 @@
-# projetos 2 - grupo 5 / TypeFlow
+# Projetos 2 - grupo 5 / TypeFlow
 uma plataforma centralizada no MBTI feito por alunos CESAR.
 
-## descrição
+## Descrição
 TypeFlow é uma plataforma web dedicada à exploração e compreensão dos tipos de personalidade do Myers-Briggs Type Indicator (MBTI), com foco no ambiente educacional. Através da plataforma, os usuários podem acessar descrições detalhadas de cada tipo de personalidade, participar de testes para descobrir seu próprio tipo, e receber materiais que auxiliarão no desenvolvimento pessoal. Além disso, a plataforma oferece recursos para aprofundar o entendimento sobre como diferentes personalidades interagem em contextos sociais e profissionais, ajudando os usuários a aplicar o MBTI na vida cotidiana.
 
-## funcionalidades 
+## Funcionalidades 
 - **Teste de MBTI**
 - **Login**
 - **Disponibilização de materiais de desenvolvimento pessoal**
 - **Seção explicando a historia do MBTI**
 - **Recursos educacionais para auxiliar professores em suas aulas**
 
-## requisitos tecnicos
+## Requisitos tecnicos
 
 - **Desenvolvimento:** Python/Django
 - **Banco de dados:** MySql 

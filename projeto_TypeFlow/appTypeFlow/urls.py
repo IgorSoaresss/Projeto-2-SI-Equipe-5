@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),  # Exemplo de rota inicial
+    path('quiz/', views.quiz_view, name='quiz'),
 ]
