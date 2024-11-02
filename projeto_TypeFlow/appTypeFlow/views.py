@@ -16,3 +16,6 @@ def teste_personalidade(request):
 
 def teste2_mbti(request):
     return render(request, 'testes/teste2_mbti.html')
+
+def teste3_mbti(request):
+    return render(request, 'testes/teste3_mbti.html')
