@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste de Personalidade - Parte 2</title>
+  <title>Teste de Personalidade - Parte 3</title>
   <style>
     /* Estilos gerais */
     * {
@@ -23,7 +23,7 @@
     .container {
       width: 100%;
       min-height: 100vh;
-      background: linear-gradient(to right, #8e44ad 20%, #d2b4de 40%, #ffffff 100%);
+      background: linear-gradient(to right, #1BCB96 20%, #3dffc5 40%, #ffffff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -43,7 +43,7 @@
     .progress {
       width: 0%;
       height: 100%;
-      background-color: #9b59b6;
+      background-color: #38574E;
       transition: width 0.3s;
     }
 
@@ -79,7 +79,7 @@
     /* Estilo aprimorado para o título */
     .text-container h1 {
       font-size: 2.5em; /* Tamanho grande para impacto */
-      color: #a569bd; /* Roxo claro para contraste */
+      color: #38574E; /* Roxo claro para contraste */
       text-align: center; /* Centralizado */
       margin-bottom: 20px;
       text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), /* Sombra branca para contraste suave */
@@ -95,7 +95,7 @@
       max-height: 60vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: #9b59b6 #ffffff;
+      scrollbar-color: #38574E #ffffff;
     }
 
     .question-item {
@@ -158,16 +158,16 @@
     .options label:nth-child(5) { font-size: 0.9em; color: #333; }
 
     .options input[type="radio"]:checked + span {
-      background-color: #9b59b6;
+      background-color: #38574E;
     }
 
     /* Estilo aprimorado para o botão "próxima" */
     .proximo-btn {
       padding: 15px 30px;
       font-size: 1.2em; /* Aumentado para maior visibilidade */
-      background-color: #6c3483; /* Cor mais escura para contraste */
+      background-color: #38574E; /* Cor mais escura para contraste */
       color: white;
-      border: 2px solid #9b59b6; /* Adiciona um contorno */
+      border: 2px solid #5b8b7e; /* Adiciona um contorno */
       border-radius: 8px;
       cursor: pointer;
       margin-top: 25px;
@@ -177,7 +177,7 @@
     }
 
     .proximo-btn:hover {
-      background-color: #8e44ad; /* Intensifica a cor no hover */
+      background-color: #4b786b; /* Intensifica a cor no hover */
       transform: translateY(-3px);
       box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
     }
@@ -192,11 +192,11 @@
 
     <div class="content">
       <div class="image-container">
-        <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem">
+        <img src="{% static 'img/boneco_mbti_azul.png' %}" alt="Personagem" class="imagem">
       </div>
 
       <div class="text-container">
-        <h1>Como você percebe e assimila as informações?</h1>
+        <h1>Como você toma suas decisões?</h1>
         <ul class="question-list" id="question-list">
           <!-- As perguntas serão carregadas aqui -->
         </ul>
@@ -209,33 +209,33 @@
 
   <script>
     const questions = [
-      "Você costuma se manter com os pés no chão ou vive cheio de ideias?",
-      "Você prefere confiar em sua experiência ou no seu instinto?",
-      "Você tende a focar mais nos detalhes ou na visão geral das coisas?",
-      "Você se considera mais prático ou imaginativo?",
-      "Você prefere se comunicar de forma específica e literal ou através de metáforas e analogias?",
-      "Você se baseia mais na realidade ou na intuição ao tomar decisões?",
-      "O que é mais importante para você: segurança ou liberdade?",
-      "Você tende a viver mais focado no presente ou no futuro?",
-      "Você prefere lidar com fatos concretos ou explorar possibilidades?",
-      "Você se considera mais uma pessoa que faz ou que cria?",
-      "Você prefere o que é concreto ou o que é abstrato?",
-      "Você entende melhor informações apresentadas passo a passo ou que cheguem através de saltos e de maneira indireta?"
+      "Você é analisador ou simpatizador?",
+      "Você é objetivo ou emocional?",
+      "Você aje com a razão ou emoção?",
+      "Você se considera mais crítico ou aceitável?",
+      "Você é mais observador ou participante?",
+      "Você decide baseado em princípios ou decide baseado em valores?",
+      "Você decide mais pelo pensamento ou pelo sentimento?",
+      "Você toma decisões convincentes ou comoventes?",
+      "Você se considera mais frio ou mais caloroso?",
+      "Você decide pela justiça ou pela harmonia?",
+      "Você se sente motivado pelo desejo de realização ou motivado pelo desejo de ser apreciado?",
+      "Você se considera mais firme ou mais gentil?"
     ];
 
     const labels = [
-      ["Pés no chão", "Cheio de ideias"],
-      ["Experiência", "Instinto"],
-      ["Visão focada em detalhes", "Visão Global"],
-      ["Praticidade", "Imaginação"],
-      ["Específico e literal", "Metáfora e Analogia"],
-      ["Realidade", "Intuição"],
-      ["Segurança", "Liberdade"],
-      ["Presente", "Futuro"],
-      ["Fatos", "Possibilidades"],
-      ["Faz", "Cria"],
-      ["Concreto", "Abstrato"],
-      ["passo a passo", "saltos e de forma indireta "]
+      ["Analisador", "Simpatizador"],
+      ["Objetivo", "Emocional"],
+      ["Razão", "Emoção"],
+      ["Crítico", "Aceitável"],
+      ["Observador", "Participante"],
+      ["Baseado em princípios", "Baseado em valores"],
+      ["Pensamento", "Sentimento"],
+      ["Convincente", "Comovente"],
+      ["Frio", "Caloroso"],
+      ["Justiça", "Harmonia"],
+      ["Motivado pela realização", "Motivado por ser apreciado"],
+      ["Firme", "Gentil"]
     ];
 
     const totalQuestions = questions.length;
@@ -284,7 +284,7 @@
     }
 
     function goToNextPage() {
-      window.location.href = "{% url 'teste3_mbti' %}";
+      alert("Indo para a próxima página...");
     }
 
     loadQuestions();
