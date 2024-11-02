@@ -10,3 +10,9 @@ def teste_personalidade(request):
 
 def home_aluno(request):
     return render(request, 'aluno/home_aluno.html')
+
+def teste_personalidade(request):
+    return render(request, 'testes/teste_personalidade.html')
+
+def teste2_mbti(request):
+    return render(request, 'testes/teste2_mbti.html')

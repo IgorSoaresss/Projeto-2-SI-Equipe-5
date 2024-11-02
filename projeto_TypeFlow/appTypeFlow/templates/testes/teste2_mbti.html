@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -57,13 +58,15 @@
     .image-container {
       flex: 1;
       display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-right: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 140px;
+      margin-right: 70px;
     }
 
     .image-container img {
-      max-width: 120px;
+      max-width: 300px;
       height: auto;
     }
 
@@ -189,7 +192,7 @@
 
     <div class="content">
       <div class="image-container">
-        <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem">
+        <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem">
       </div>
 
       <div class="text-container">

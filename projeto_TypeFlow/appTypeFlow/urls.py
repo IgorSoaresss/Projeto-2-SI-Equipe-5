@@ -2,4 +2,7 @@ from django.urls import path
 from . import views  # Referencia as views do próprio app
 
 urlpatterns = [
-    path('home/', views.home_aluno, name='home_aluno'),]
+    path('', views.home_aluno, name='home_aluno'),
+    path('teste_personalidade/', views.teste_personalidade, name='teste_personalidade'),
+    path('teste2_mbti/', views.teste2_mbti, name='teste2_mbti')
+    ]

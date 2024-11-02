@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -57,13 +58,15 @@
     .image-container {
       flex: 1;
       display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-right: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 140px;
+      margin-right: 70px;
     }
 
     .image-container img {
-      max-width: 120px;
+      max-width: 300px;
       height: auto;
     }
 
@@ -74,10 +77,13 @@
     }
 
     .text-container h1 {
-      font-size: 1.8em;
+      font-size: 2.5em;
       color: #4CAF50;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-      margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.4);
+      padding: 10px 0;
+      letter-spacing: 1px;
     }
 
     .question-list {
@@ -199,7 +205,6 @@
       </div>
     </div>
 
-    <!-- Botão Próxima -->
     <button class="proximo-btn" id="next-page-btn" onclick="goToNextPage()">Próxima</button>
   </div>
 
@@ -235,7 +240,7 @@
     ];
 
     const totalQuestions = questions.length;
-    let currentQuestion = 0; // Inicializa para a primeira pergunta
+    let currentQuestion = 0;
 
     function loadQuestions() {
       const questionList = document.getElementById("question-list");
@@ -260,26 +265,30 @@
 
     function updateProgress() {
       const progressElement = document.getElementById("progress");
-      const progressPercentage = (currentQuestion / totalQuestions) * 100;
+      const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
       progressElement.style.width = progressPercentage + "%";
     }
 
     function nextQuestion(index) {
       const questionItems = document.querySelectorAll(".question-item");
-      if (index === currentQuestion && currentQuestion < totalQuestions - 1) {
+      if (index === currentQuestion && currentQuestion < totalQuestions) {
         questionItems[currentQuestion].classList.add("inactive");
         currentQuestion++;
-        questionItems[currentQuestion].classList.remove("inactive");
-        updateProgress();
+        if (currentQuestion < totalQuestions) {
+          questionItems[currentQuestion].classList.remove("inactive");
+          updateProgress();
+        }
       }
 
-      if (currentQuestion === totalQuestions - 1) {
+      if (currentQuestion === totalQuestions) {
         document.getElementById("next-page-btn").style.display = "inline-block";
+      } else {
+        document.getElementById("next-page-btn").style.display = "none";
       }
     }
 
     function goToNextPage() {
-      alert("Indo para a próxima página...");
+      window.location.href = "{% url 'teste2_mbti' %}";
     }
 
     loadQuestions();
