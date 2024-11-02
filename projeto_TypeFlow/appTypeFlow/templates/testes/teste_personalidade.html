@@ -291,6 +291,26 @@
       window.location.href = "{% url 'teste2_mbti' %}";
     }
 
+    function submitResponses(responses) {
+      let formData = new FormData();
+      formData.append('user_id', 1);  // Exemplo: ID do usuário
+      responses.forEach((response, index) => {
+          formData.append(`responses[${index}]`, response);
+      });
+
+      fetch('/save_response/', {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log('Success:', data);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+    }
+
     loadQuestions();
     updateProgress();
   </script>

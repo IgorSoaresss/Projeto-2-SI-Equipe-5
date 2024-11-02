@@ -45,3 +45,21 @@ def teste2_mbti(request):
 
 def teste3_mbti(request):
     return render(request, 'testes/teste3_mbti.html')
+
+from django.http import JsonResponse
+from .models import MBTIResponse
+
+def save_mbti_response(request):
+    if request.method == 'POST':
+        data = request.POST.getlist('responses[]')  # Captura as respostas enviadas pelo JavaScript
+        user_id = request.POST.get('user_id', None)
+        
+        # Converte a lista de respostas para uma string separada por vírgulas
+        responses_str = ','.join(data)
+
+        # Salva as respostas no banco de dados
+        mbti_response = MBTIResponse(user_id=user_id, response_data=responses_str)
+        mbti_response.save()
+
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
