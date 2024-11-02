@@ -1,0 +1,298 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste de Personalidade</title>
+  <style>
+    /* Estilos gerais */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(to right, #a8e063 20%, #c7e8a1 40%, #ffffff 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .progress-bar {
+      width: 75%;
+      height: 25px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background-color: #4CAF50;
+      transition: width 0.3s;
+    }
+
+    .content {
+      display: flex;
+      align-items: flex-start;
+      width: 80%;
+      max-width: 1200px;
+      margin-top: 20px;
+    }
+
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 140px;
+      margin-right: 70px;
+    }
+
+    .image-container img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    .text-container {
+      flex: 3;
+      color: #333;
+      text-align: left;
+    }
+
+    .text-container h1 {
+      font-size: 2.5em;
+      color: #4CAF50;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.4);
+      padding: 10px 0;
+      letter-spacing: 1px;
+    }
+
+    .question-list {
+      list-style-type: none;
+      padding: 0;
+      width: 100%;
+      max-height: 60vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #4CAF50 #ffffff;
+    }
+
+    .question-item {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      font-size: 1.3em;
+      text-align: center;
+    }
+
+    .question-item.inactive {
+      opacity: 0.5;
+      transform: translateY(-10px);
+      filter: grayscale(80%);
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .options label {
+      text-align: center;
+      font-size: 1em;
+      color: #333;
+      flex: 1;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .options input[type="radio"] {
+      display: none;
+    }
+
+    .options label span {
+      display: inline-block;
+      border-radius: 50%;
+      border: 2px solid #333;
+      margin-bottom: 5px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .options label:nth-child(1) span { width: 40px; height: 40px; }
+    .options label:nth-child(2) span { width: 30px; height: 30px; }
+    .options label:nth-child(3) span { width: 20px; height: 20px; }
+    .options label:nth-child(4) span { width: 30px; height: 30px; }
+    .options label:nth-child(5) span { width: 40px; height: 40px; }
+
+    .options label:nth-child(1) { font-size: 0.9em; color: #333; }
+    .options label:nth-child(3), .options label:nth-child(2), .options label:nth-child(4) { font-size: 0; }
+    .options label:nth-child(5) { font-size: 0.9em; color: #333; }
+
+    .options input[type="radio"]:checked + span {
+      background-color: #4CAF50;
+    }
+
+    .proximo-btn {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      display: none;
+    }
+
+    .proximo-btn:hover {
+      background-color: #388E3C;
+      transform: translateY(-2px);
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .proximo-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="content">
+      <div class="image-container">
+        <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem">
+      </div>
+
+      <div class="text-container">
+        <h1>Como você interage com o mundo e onde obtém e dirige a sua energia</h1>
+        <ul class="question-list" id="question-list">
+          <!-- As perguntas serão carregadas aqui -->
+        </ul>
+      </div>
+    </div>
+
+    <button class="proximo-btn" id="next-page-btn" onclick="goToNextPage()">Próxima</button>
+  </div>
+
+  <script>
+    const questions = [
+      "Você é mais falante ou ouvinte?",
+      "Você é mais aberto ou reservado?",
+      "Você é mais impulsivo ou retraído?",
+      "Você é mais social ou individual?",
+      "Você age e depois pensa ou pensa e depois age?",
+      "Você é mais entusiasmado ou quieto?",
+      "Você prefere barulho ou silêncio?",
+      "Você prefere ser expressivo ou contido?",
+      "Você é mais força ou delicadeza?",
+      "Você é mais agitado ou calmo?",
+      "Você é mais expansivo ou introspectivo?",
+      "Você fala mais do que ouve ou ouve mais do que fala?"
+    ];
+
+    const labels = [
+      ["Mais Falante", "Mais Ouvinte"],
+      ["Mais Aberto", "Mais Reservado"],
+      ["Mais Impulsivo", "Mais Retraído"],
+      ["Mais Social", "Mais Individual"],
+      ["Age antes de pensar", "Pensa antes de agir"],
+      ["Mais Entusiasmado", "Mais Quieto"],
+      ["Prefere Barulho", "Prefere Silêncio"],
+      ["Mais Expressivo", "Mais Contido"],
+      ["Mais Força", "Mais Delicadeza"],
+      ["Mais Agitado", "Mais Calmo"],
+      ["Mais Expansivo", "Mais Introspectivo"],
+      ["Fala mais do que ouve", "Ouve mais do que fala"]
+    ];
+
+    const totalQuestions = questions.length;
+    let currentQuestion = 0;
+
+    function loadQuestions() {
+      const questionList = document.getElementById("question-list");
+      questions.forEach((text, index) => {
+        const questionItem = document.createElement("li");
+        questionItem.classList.add("question-item");
+        if (index !== 0) questionItem.classList.add("inactive");
+
+        questionItem.innerHTML = `
+          <p>${index + 1}. ${text}</p>
+          <div class="options">
+            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span>${labels[index][0]}</label>
+            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
+            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
+            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
+            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span>${labels[index][1]}</label>
+          </div>
+        `;
+        questionList.appendChild(questionItem);
+      });
+    }
+
+    function updateProgress() {
+      const progressElement = document.getElementById("progress");
+      const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
+      progressElement.style.width = progressPercentage + "%";
+    }
+
+    function nextQuestion(index) {
+      const questionItems = document.querySelectorAll(".question-item");
+      if (index === currentQuestion && currentQuestion < totalQuestions) {
+        questionItems[currentQuestion].classList.add("inactive");
+        currentQuestion++;
+        if (currentQuestion < totalQuestions) {
+          questionItems[currentQuestion].classList.remove("inactive");
+          updateProgress();
+        }
+      }
+
+      if (currentQuestion === totalQuestions) {
+        document.getElementById("next-page-btn").style.display = "inline-block";
+      } else {
+        document.getElementById("next-page-btn").style.display = "none";
+      }
+    }
+
+    function goToNextPage() {
+      window.location.href = "{% url 'teste2_mbti' %}";
+    }
+
+    loadQuestions();
+    updateProgress();
+  </script>
+</body>
+</html>

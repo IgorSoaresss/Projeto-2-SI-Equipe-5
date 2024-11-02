@@ -1,23 +1,14 @@
-"""
-URL configuration for projeto_TypeFlow project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
+from appTypeFlow import views  # Certifique-se de que o app é appTypeFlow (ou ajuste conforme necessário)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('appTypeFlow/', include('appTypeFlow.urls')),
+=======
+    path('appTypeFlow/', include('appTypeFlow.urls')),  # Inclui URLs do app appTypeFlow,  
+    path('teste_personalidade/', views.teste_personalidade, name='teste_personalidade'),  # URL para teste de personalidade
+    path('', views.home_aluno, name='home_aluno'),  # Define a home_aluno como a página inicia
+>>>>>>> origin/feature_teste
 ]

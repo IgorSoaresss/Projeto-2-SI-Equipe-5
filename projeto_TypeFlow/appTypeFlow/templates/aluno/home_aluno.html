@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}TypeFlow{% endblock %}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Fonte com base no protótipo que criamos */
+      body {
+        font-family: "Quicksand", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* barra de navegação */
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #26a013;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: 80px;
+      }
+
+      .nav-left,
+      
+      .nav-left, .nav-right {
+            flex: 1; /* Garante espaço igual nas laterais */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 150px; /* Define largura fixa para alinhamento */
+        }
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+       .nav-center {
+            flex: 2; /* Garante que o título ocupe o centro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+      .nav-icon {
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .logo {
+        height: 90px;
+        cursor: pointer;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: #333;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 1000;
+      }
+
+      .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+
+      .closebtn {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        font-size: 36px;
+        margin-left: 50px;
+        color: white;
+        cursor: pointer;
+      }
+
+      /* Centralizando o container de botões */
+      .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .custom-button {
+            background-color: #b0b0b0;
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .custom-button:hover {
+            background-color: #8f8f8f;
+        }
+
+      main {
+        padding: 20px;
+        text-align: center;
+      }
+
+      /* Texto do MBTI e gráfico em layout de 50% */
+      .content-container {
+        display: flex;
+        margin-top: 20px;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mbti-info {
+        flex: 1;
+        padding: 15px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+        text-align: justify;
+        max-width: 50%;
+      }
+      .mbti-info h3 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #26a013;
+        text-align: center;
+      }
+
+      .progress-chart {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 50%;
+      }
+
+      canvas {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .content-container {
+          flex-direction: column;
+        }
+
+        .mbti-info,
+        .progress-chart {
+          max-width: 100%;
+        }
+      }
+
+      /*estilização do footer*/
+      .footer {
+        color: rgb(0, 0, 0);
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer p {
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Construção com base no protótipo da Barra de Navegação -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home_aluno' %}">
+                <img src="{% static 'img/Logo-TypeFlow.jpg' %}" alt="TypeFlow Logo" class="logo" />
+            </a>
+        </div>
+
+        <div class="nav-center">
+            <h1 class="nav-title">TypeFlow</h1>
+        </div>
+
+        <div class="nav-right">
+          <div class="nav-icon" onclick="toggleSidebar()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+              </svg>
+          </div>
+      </div>
+    </nav>
+
+
+    <!-- Barra Lateral (Sidebar) -->
+    <div id="sidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()"
+        >&times;</a
+      >
+      <a href="#">Perfil</a>
+      <a href="#">Contate-nos</a>
+      <a href="#">Configurações</a>
+    </div>
+
+    <main>
+      <h2>Bem-vindo, {{ nome_aluno }}!</h2>
+      <p>
+        Aqui você pode iniciar o teste de MBTI para descobrir mais sobre sua
+        personalidade.
+      </p>
+
+      <!-- Botão de Início do Teste -->
+      <a href="{% url 'teste_personalidade' %}" class="custom-button"
+        >Teste de MBTI</a
+      >
+
+      <!-- Contêiner flexível para o texto e o gráfico -->
+      <div class="content-container">
+        <!-- Bloco de texto explicativo -->
+        <div class="mbti-info">
+          <h3>A História do MBTI e Sua Importância</h3>
+          <p>
+            O <strong>MBTI (Myers-Briggs Type Indicator)</strong> foi
+            desenvolvido por Katharine Cook Briggs e sua filha, Isabel Briggs
+            Myers, durante a Segunda Guerra Mundial. Inspiradas nas teorias de
+            Carl Jung, elas criaram o teste para ajudar as pessoas a
+            compreenderem melhor suas personalidades, especialmente em contextos
+            de trabalho e cooperação. Inicialmente, o MBTI foi concebido para
+            melhorar a eficiência e satisfação no trabalho, ao alinhar as
+            habilidades naturais de cada pessoa com suas funções profissionais.
+          </p>
+          <p>
+            O teste categoriza as pessoas em um dos
+            <strong>16 tipos de personalidade</strong>, combinando quatro pares
+            de preferências: Extroversão (E) ou Introversão (I), Sensação (S) ou
+            Intuição (N), Pensamento (T) ou Sentimento (F), e Julgamento (J) ou
+            Percepção (P). Essa estrutura visa identificar como cada indivíduo
+            percebe o mundo e toma decisões, ajudando no autoconhecimento,
+            comunicação e entendimento das diferenças individuais.
+          </p>
+          <p>
+            Realizar o teste MBTI pode ser fundamental para o desenvolvimento
+            pessoal e profissional. Ele permite uma compreensão mais profunda de
+            si mesmo, proporcionando insights sobre suas preferências,
+            motivações e pontos fortes. Além disso, o teste pode melhorar as
+            relações interpessoais, ao ajudar a reconhecer e respeitar as
+            diferenças de personalidade em ambientes de estudo, trabalho ou em
+            relações pessoais.
+          </p>
+          <p>
+            Mais do que uma simples ferramenta de categorização, o MBTI promove
+            a autorreflexão e o crescimento pessoal, ajudando cada pessoa a
+            explorar formas de melhorar suas habilidades, ajustar comportamentos
+            e adotar estratégias mais eficazes em diversas situações da vida.
+          </p>
+        </div>
+
+        <!-- Gráfico de Progresso -->
+        <div class="progress-chart">
+          <canvas id="progressoGrafico"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-left">
+            <p>&copy; 2024 TypeFlow. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script para controlar a Sidebar -->
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+      }
+    </script>
+
+    <!-- Script para o Gráfico de Pizza -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Dados do gráfico de progresso (exemplo: 50% concluído)
+      const progressoDados = {
+        labels: ["Concluído", "Restante"],
+        datasets: [
+          {
+            data: [70, 30],
+            backgroundColor: ["#4CAF50", "#E0E0E0"],
+          },
+        ],
+      };
+
+      // Configuração do gráfico
+      const config = {
+        type: "pie",
+        data: progressoDados,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+            },
+          },
+        },
+      };
+
+      // Renderização do gráfico no canvas
+      const ctx = document.getElementById("progressoGrafico").getContext("2d");
+      new Chart(ctx, config);
+    </script>
+  </body>
+</html>
