@@ -1,6 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
+from django.shortcuts import render, redirect
 from .forms import QuizForm
 from .models import Question
 
@@ -19,26 +17,48 @@ def calculate_mbti(answers):
     )
     return mbti_type
 
-def quiz_view(request):
+def quiz_view(request, page=1):
     if request.method == 'POST':
         form = QuizForm(request.POST)
         if form.is_valid():
-            answers = {key: form.cleaned_data[key] for key in form.cleaned_data}
-            mbti_type = calculate_mbti(answers)
-            return render(request, '', {'mbti_type': mbti_type})
+            answers = request.session.get('quiz_answers', {})
+            for key, value in form.cleaned_data.items():
+                answers[key] = value
+            request.session['quiz_answers'] = answers
+            
+            if page < 4:
+                return redirect('quiz_view', page=page+1)
+            else:
+                mbti_type = calculate_mbti(answers)
+                request.session['mbti_type'] = mbti_type
+                
+                # Salvar o resultado no banco de dados
+                MBTIResult.objects.create(
+                    user=request.user,
+                    mbti_type=mbti_type
+                )
+
+                return redirect('result_view')
     else:
         form = QuizForm()
-    return render(request, '', {'form': form})
 
-def teste_personalidade(request):
-    # Dados e lógica para o teste de personalidade
-    return render(request, 'teste/teste_personalidade.html')
+    total_questions = len(form.fields)
+    return render(request, f'testes/teste{page}_mbti.html', {'form': form, 'total_questions': total_questions})
 
+def result_view(request):
+    mbti_type = request.session.get('mbti_type')  # Obter o tipo MBTI da sessão
+
+    # Se o usuário já fez o teste, busca o resultado no banco de dados
+    result = MBTIResult.objects.filter(user=request.user).latest('date_taken')
+
+    return render(request, 'testes/result.html', {'mbti_type': mbti_type, 'result': result})
+
+# Outras views
 def home_aluno(request):
     return render(request, 'aluno/home_aluno.html')
 
-def teste_personalidade(request):
-    return render(request, 'testes/teste_personalidade.html')
+def teste1_mbti(request):
+    return render(request, 'testes/teste1_mbti.html')
 
 def teste2_mbti(request):
     return render(request, 'testes/teste2_mbti.html')
