@@ -25,10 +25,10 @@ def quiz_view(request):
         if form.is_valid():
             answers = {key: form.cleaned_data[key] for key in form.cleaned_data}
             mbti_type = calculate_mbti(answers)
-            return render(request, 'result.html', {'mbti_type': mbti_type})
+            return render(request, '', {'mbti_type': mbti_type})
     else:
         form = QuizForm()
-    return render(request, 'quiz.html', {'form': form})
+    return render(request, '', {'form': form})
 
 def teste_personalidade(request):
     # Dados e lógica para o teste de personalidade
