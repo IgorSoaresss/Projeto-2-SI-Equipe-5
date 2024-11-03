@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste de Personalidade - Parte 2</title>
+  <title>Teste de Personalidade - Final</title>
   <style>
     /* Estilos gerais */
     * {
@@ -23,7 +23,7 @@
     .container {
       width: 100%;
       min-height: 100vh;
-      background: linear-gradient(to right, #8e44ad 20%, #d2b4de 40%, #ffffff 100%);
+      background: linear-gradient(to right, #f7e37b 20%, #ffe699 40%, #ffffff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -43,7 +43,7 @@
     .progress {
       width: 0%;
       height: 100%;
-      background-color: #9b59b6;
+      background-color: #FFC107;
       transition: width 0.3s;
     }
 
@@ -78,7 +78,7 @@
 
     .text-container h1 {
       font-size: 2.5em;
-      color: #a569bd;
+      color: #FFC107;
       text-align: center;
       margin-bottom: 20px;
       text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.4);
@@ -93,7 +93,7 @@
       max-height: 60vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: #9b59b6 #ffffff;
+      scrollbar-color: #FFC107 #ffffff;
     }
 
     .question-item {
@@ -121,6 +121,10 @@
       width: 100%;
     }
 
+    .options input[type="radio"] {
+      display: none;
+    }
+
     .options label span {
       display: inline-block;
       border-radius: 50%;
@@ -130,33 +134,28 @@
       cursor: pointer;
     }
 
-    .options input[type="radio"]:checked + span {
-      background-color: #9b59b6;
-    }
-
     .proximo-btn {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      background-color: #6c3483;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background-color: #FFC107;
       color: white;
-      border: 2px solid #9b59b6;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 25px;
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+      margin-top: 20px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
     .proximo-btn:hover {
-      background-color: #8e44ad;
-      transform: translateY(-3px);
-      box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
+      background-color: #FFB300;
+      transform: translateY(-2px);
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
-
 <body>
-  <form method="post" action="{% url 'quiz_view' page=2 %}">
+  <form method="post" action="{% url 'quiz_view' page=4 %}">
     {% csrf_token %}
     <div class="container">
       <div class="progress-bar">
@@ -165,11 +164,11 @@
 
       <div class="content">
         <div class="image-container">
-          <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem">
+          <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem">
         </div>
 
         <div class="text-container">
-          <h1>Como você percebe e assimila as informações?</h1>
+          <h1>Final do Teste de Personalidade</h1>
           <ul class="question-list">
             {% for field in form %}
               <li class="question-item">
@@ -183,7 +182,8 @@
         </div>
       </div>
 
-      <button type="submit" class="proximo-btn">Próxima</button>
+      <!-- Botão de finalização do teste -->
+      <button type="submit" class="proximo-btn">Finalizar Teste</button>
     </div>
   </form>
 

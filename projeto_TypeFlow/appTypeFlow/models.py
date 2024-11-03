@@ -17,7 +17,7 @@ class Question(models.Model):
     ])
 
 class MBTIResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relaciona o resultado a um usuário
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     mbti_type = models.CharField(max_length=4)  # Armazena o tipo MBTI (ex: 'INTJ', 'ENFP')
     date_taken = models.DateTimeField(auto_now_add=True)  # Armazena a data do teste
 

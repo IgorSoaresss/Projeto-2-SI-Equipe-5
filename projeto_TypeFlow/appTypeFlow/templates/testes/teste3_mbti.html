@@ -23,7 +23,7 @@
     .container {
       width: 100%;
       min-height: 100vh;
-      background: linear-gradient(to right, #1BCB96 20%, #3dffc5 40%, #ffffff 100%);
+      background: linear-gradient(to right, #3498db 20%, #85c1e9 40%, #ffffff 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -43,7 +43,7 @@
     .progress {
       width: 0%;
       height: 100%;
-      background-color: #38574E;
+      background-color: #3498db;
       transition: width 0.3s;
     }
 
@@ -76,16 +76,14 @@
       text-align: left;
     }
 
-    /* Estilo aprimorado para o título */
     .text-container h1 {
-      font-size: 2.5em; /* Tamanho grande para impacto */
-      color: #38574E; /* Roxo claro para contraste */
-      text-align: center; /* Centralizado */
+      font-size: 2.5em;
+      color: #2980b9;
+      text-align: center;
       margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), /* Sombra branca para contraste suave */
-                 1px 1px 10px rgba(0, 0, 0, 0.4); /* Sombra escura para profundidade */
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.4);
       padding: 10px 0;
-      letter-spacing: 1px; /* Espaçamento entre letras */
+      letter-spacing: 1px;
     }
 
     .question-list {
@@ -95,7 +93,7 @@
       max-height: 60vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: #38574E #ffffff;
+      scrollbar-color: #3498db #ffffff;
     }
 
     .question-item {
@@ -123,21 +121,6 @@
       width: 100%;
     }
 
-    .options label {
-      text-align: center;
-      font-size: 1em;
-      color: #333;
-      flex: 1;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .options input[type="radio"] {
-      display: none;
-    }
-
     .options label span {
       display: inline-block;
       border-radius: 50%;
@@ -147,37 +130,25 @@
       cursor: pointer;
     }
 
-    .options label:nth-child(1) span { width: 40px; height: 40px; }
-    .options label:nth-child(2) span { width: 30px; height: 30px; }
-    .options label:nth-child(3) span { width: 20px; height: 20px; }
-    .options label:nth-child(4) span { width: 30px; height: 30px; }
-    .options label:nth-child(5) span { width: 40px; height: 40px; }
-
-    .options label:nth-child(1) { font-size: 0.9em; color: #333; }
-    .options label:nth-child(3), .options label:nth-child(2), .options label:nth-child(4) { font-size: 0; }
-    .options label:nth-child(5) { font-size: 0.9em; color: #333; }
-
     .options input[type="radio"]:checked + span {
-      background-color: #38574E;
+      background-color: #3498db;
     }
 
-    /* Estilo aprimorado para o botão "próxima" */
     .proximo-btn {
       padding: 15px 30px;
-      font-size: 1.2em; /* Aumentado para maior visibilidade */
-      background-color: #38574E; /* Cor mais escura para contraste */
+      font-size: 1.2em;
+      background-color: #2980b9;
       color: white;
-      border: 2px solid #5b8b7e; /* Adiciona um contorno */
+      border: 2px solid #3498db;
       border-radius: 8px;
       cursor: pointer;
       margin-top: 25px;
       box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
       transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      display: none;
     }
 
     .proximo-btn:hover {
-      background-color: #4b786b; /* Intensifica a cor no hover */
+      background-color: #2471a3;
       transform: translateY(-3px);
       box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
     }
@@ -185,109 +156,47 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="progress-bar">
-      <div class="progress" id="progress"></div>
-    </div>
-
-    <div class="content">
-      <div class="image-container">
-        <img src="{% static 'img/boneco_mbti_azul.png' %}" alt="Personagem" class="imagem">
+  <form method="post" action="{% url 'quiz_view' page=3 %}">
+    {% csrf_token %}
+    <div class="container">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
       </div>
 
-      <div class="text-container">
-        <h1>Como você toma suas decisões?</h1>
-        <ul class="question-list" id="question-list">
-          <!-- As perguntas serão carregadas aqui -->
-        </ul>
-      </div>
-    </div>
+      <div class="content">
+        <div class="image-container">
+          <img src="{% static 'img/boneco_mbti_azul.png' %}" alt="Personagem" class="imagem">
+        </div>
 
-    <!-- Botão Próxima -->
-    <button class="proximo-btn" id="next-page-btn" onclick="goToNextPage()">Próxima</button>
-  </div>
+        <div class="text-container">
+          <h1>Como você toma decisões?</h1>
+          <ul class="question-list">
+            {% for field in form %}
+              <li class="question-item">
+                <p>{{ field.label_tag }}</p>
+                <div class="options">
+                  {{ field }}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <button type="submit" class="proximo-btn">Próxima</button>
+    </div>
+  </form>
 
   <script>
-    const questions = [
-      "Você é analisador ou simpatizador?",
-      "Você é objetivo ou emocional?",
-      "Você aje com a razão ou emoção?",
-      "Você se considera mais crítico ou aceitável?",
-      "Você é mais observador ou participante?",
-      "Você decide baseado em princípios ou decide baseado em valores?",
-      "Você decide mais pelo pensamento ou pelo sentimento?",
-      "Você toma decisões convincentes ou comoventes?",
-      "Você se considera mais frio ou mais caloroso?",
-      "Você decide pela justiça ou pela harmonia?",
-      "Você se sente motivado pelo desejo de realização ou motivado pelo desejo de ser apreciado?",
-      "Você se considera mais firme ou mais gentil?"
-    ];
-
-    const labels = [
-      ["Analisador", "Simpatizador"],
-      ["Objetivo", "Emocional"],
-      ["Razão", "Emoção"],
-      ["Crítico", "Aceitável"],
-      ["Observador", "Participante"],
-      ["Baseado em princípios", "Baseado em valores"],
-      ["Pensamento", "Sentimento"],
-      ["Convincente", "Comovente"],
-      ["Frio", "Caloroso"],
-      ["Justiça", "Harmonia"],
-      ["Motivado pela realização", "Motivado por ser apreciado"],
-      ["Firme", "Gentil"]
-    ];
-
-    const totalQuestions = questions.length;
+    const totalQuestions = parseInt("{{ total_questions }}", 10);
     let currentQuestion = 0;
-
-    function loadQuestions() {
-      const questionList = document.getElementById("question-list");
-      questions.forEach((text, index) => {
-        const questionItem = document.createElement("li");
-        questionItem.classList.add("question-item");
-        if (index !== 0) questionItem.classList.add("inactive");
-
-        questionItem.innerHTML = `
-          <p>${index + 1}. ${text}</p>
-          <div class="options">
-            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span>${labels[index][0]}</label>
-            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
-            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
-            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span></label>
-            <label><input type="radio" name="resposta${index}" onclick="nextQuestion(${index})"><span></span>${labels[index][1]}</label>
-          </div>
-        `;
-        questionList.appendChild(questionItem);
-      });
-    }
 
     function updateProgress() {
       const progressElement = document.getElementById("progress");
-      const progressPercentage = (currentQuestion / totalQuestions) * 100;
+      const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
       progressElement.style.width = progressPercentage + "%";
     }
 
-    function nextQuestion(index) {
-      const questionItems = document.querySelectorAll(".question-item");
-      if (index === currentQuestion && currentQuestion < totalQuestions - 1) {
-        questionItems[currentQuestion].classList.add("inactive");
-        currentQuestion++;
-        questionItems[currentQuestion].classList.remove("inactive");
-        updateProgress();
-      }
-
-      // Exibe o botão "próxima" somente quando `currentQuestion` alcançar o índice da última pergunta
-      if (currentQuestion === totalQuestions - 1 && index === currentQuestion) {
-        document.getElementById("next-page-btn").style.display = "inline-block";
-      }
-    }
-
-    function goToNextPage() {
-      alert("Indo para a próxima página...");
-    }
-
-    loadQuestions();
     updateProgress();
   </script>
 </body>
