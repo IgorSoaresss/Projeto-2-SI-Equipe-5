@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect 
 from .forms import QuizForm
 from .models import Question, MBTIResult
 
@@ -23,6 +23,7 @@ def quiz_view(request, page=1):
     end_index = start_index + questions_per_page
 
     questions = Question.objects.all()[start_index:end_index]
+    total_questions = Question.objects.count()  # Número total de perguntas
 
     all_labels = [
         ("Mais Falante", "Mais Ouvinte"),
@@ -76,10 +77,9 @@ def quiz_view(request, page=1):
         ("Segue rotina", "Aberto a mudanças"),
         ("Focado em objetivos", "Vê oportunidades")
     ]
-
-    labels = all_labels[start_index:end_index]
     
-    question_label_pairs = zip(questions, labels)  # Combina as perguntas e rótulos
+    labels = all_labels[start_index:end_index]
+    question_label_pairs = zip(questions, labels)
 
     form = QuizForm(request.POST or None, questions=questions)
 
@@ -98,21 +98,23 @@ def quiz_view(request, page=1):
                 MBTIResult.objects.create(user=None, mbti_type=mbti_type)
                 return redirect('result_view')
 
-    total_questions = questions.count()  # Ou defina um valor fixo se necessário para teste
     return render(request, f'testes/teste{page}_mbti.html', {
-    'form': form,
-    'total_questions': total_questions,
-    'question_label_pairs': zip(questions, labels),  # Garante o uso das perguntas e rótulos
-    'page': page,
+        'form': form,
+        'total_questions': total_questions,
+        'question_label_pairs': question_label_pairs,
+        'page': page,
     })
-
 
 def result_view(request):
     mbti_type = request.session.get('mbti_type')
     try:
-        result = MBTIResult.objects.latest('date_taken')  # Busca o último resultado sem filtrar por usuário
+        result = MBTIResult.objects.latest('date_taken')
     except MBTIResult.DoesNotExist:
         result = None
+
+    # Limpa o progresso ao finalizar o teste
+    if 'quizProgress' in request.session:
+        del request.session['quizProgress']
 
     return render(request, 'testes/result.html', {'mbti_type': mbti_type, 'result': result})
 
@@ -121,13 +123,13 @@ def home_aluno(request):
     return render(request, 'aluno/home_aluno.html')
 
 def teste1_mbti(request):
-     return redirect('quiz_view', page=1)
+    return redirect('quiz_view', page=1)
 
 def teste2_mbti(request):
     return redirect('quiz_view', page=2)
+
 def teste3_mbti(request):
     return redirect('quiz_view', page=3)
 
 def teste4_mbti(request):
     return redirect('quiz_view', page=4)
-
