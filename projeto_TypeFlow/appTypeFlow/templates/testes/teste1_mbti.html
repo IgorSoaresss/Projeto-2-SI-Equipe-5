@@ -207,99 +207,90 @@
   </head>
 
   <body>
-    <form method="post" action="{% url 'quiz_view' page=1 %}">
-      {% csrf_token %}
-      <div class="container">
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
+    <!-- Apenas um formulário principal, sem aninhamento -->
+    <form method="post" action="{% url 'quiz_view' page=page|add:1 %}">
+        {% csrf_token %}
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="content">
+                <div class="image-container">
+                    <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem" />
+                </div>
+
+                <div class="text-container">
+                    <h1>Como você interage com o mundo e onde obtém e dirige a sua energia</h1>
+                    <ul class="question-list">
+                        {% for question, label_pair in question_label_pairs %}
+                        <li class="question-item">
+                            <p>{{ question.text }}</p>
+                            <div class="options">
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="E" />
+                                    <span class="circle large"></span>{{ label_pair.0 }}
+                                </label>
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="E" />
+                                    <span class="circle medium"></span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="E" />
+                                    <span class="circle small"></span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="I" />
+                                    <span class="circle small"></span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="I" />
+                                    <span class="circle medium"></span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="{{ question.id }}" value="I" />
+                                    <span class="circle large"></span>{{ label_pair.1 }}
+                                </label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <button type="submit" class="proximo-btn">Próxima</button>
         </div>
-
-        <div class="content">
-          <div class="image-container">
-            <img
-              src="{% static 'img/mago_mbti.png' %}"
-              alt="Personagem"
-              class="imagem"
-            />
-          </div>
-
-          <div class="text-container">
-            <h1>
-              Como você interage com o mundo e onde obtém e dirige a sua energia
-            </h1>
-            <ul class="question-list">
-              {% for question, label_pair in question_label_pairs %}
-              <li class="question-item">
-                  <p>{{ question.text }}</p>
-                  <div class="options">
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="E" />
-                          <span class="circle large"></span>{{ label_pair.0 }}
-                      </label>
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="E" />
-                          <span class="circle medium"></span>
-                      </label>
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="E" />
-                          <span class="circle small"></span>
-                      </label>
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="I" />
-                          <span class="circle small"></span>
-                      </label>
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="I" />
-                          <span class="circle medium"></span>
-                      </label>
-                      <label>
-                          <input type="radio" name="{{ question.id }}" value="I" />
-                          <span class="circle large"></span>{{ label_pair.1 }}
-                      </label>
-                  </div>
-              </li>
-              {% endfor %}
-           </ul>
-          </div>
-        </div>
-
-        <button type="submit" class="proximo-btn">Próxima</button>
-      </div>
     </form>
 
     <script>
-      // Total de perguntas (usado para calcular o progresso)
-      const totalQuestions = parseInt("{{ total_questions }}", 10);
-      let currentQuestion = 0;
-  
-      // Atualiza a barra de progresso com base na pergunta atual
-      function updateProgress() {
-          const progressElement = document.getElementById("progress");
-          const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
-          progressElement.style.width = progressPercentage + "%";
-      }
-  
-      // Avança para a próxima pergunta, ocultando a anterior
-      function nextQuestion() {
-          const questionItems = document.querySelectorAll(".question-item");
-          if (currentQuestion < totalQuestions - 1) {
-              questionItems[currentQuestion].classList.add("inactive"); // Torna a pergunta atual inativa
-              currentQuestion++;
-              questionItems[currentQuestion].classList.remove("inactive"); // Ativa a próxima pergunta
-              updateProgress(); // Atualiza a barra de progresso
-          }
-      }
-  
-      // Inicializa a barra de progresso e oculta todas as perguntas, exceto a primeira
-      document.addEventListener("DOMContentLoaded", function () {
-          const questionItems = document.querySelectorAll(".question-item");
-          questionItems.forEach((item, index) => {
-              if (index !== 0) {
-                  item.classList.add("inactive"); // Esconde as perguntas, exceto a primeira
-              }
-          });
-          updateProgress(); // Inicia a barra de progresso
-      });
-   </script>  
-  </body>
+        const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
+        let currentQuestion = 0;
+
+        function updateProgress() {
+            const progressElement = document.getElementById("progress");
+            const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
+            progressElement.style.width = progressPercentage + "%";
+        }
+
+        function nextQuestion() {
+            const questionItems = document.querySelectorAll(".question-item");
+            if (currentQuestion < totalQuestions - 1) {
+                questionItems[currentQuestion].classList.add("inactive");
+                currentQuestion++;
+                questionItems[currentQuestion].classList.remove("inactive");
+                updateProgress();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const questionItems = document.querySelectorAll(".question-item");
+            questionItems.forEach((item, index) => {
+                if (index !== 0) {
+                    item.classList.add("inactive");
+                }
+            });
+            updateProgress();
+        });
+    </script>
+</body>
 </html>

@@ -156,7 +156,7 @@
 </head>
 
 <body>
-  <form method="post" action="{% url 'quiz_view' page=3 %}">
+  <form method="post" action="{% url 'quiz_view' page=page|add:1 %}">
     {% csrf_token %}
     <div class="container">
       <div class="progress-bar">
@@ -171,27 +171,38 @@
         <div class="text-container">
           <h1>Como você toma decisões?</h1>
           <ul class="question-list">
-            {% for field, label_pair in form.fields.items|zip:labels %}
-                <li class="question-item">
-                    <p>{{ field.label_tag }}</p>
-                    <div class="options">
-                        <label>
-                            <input type="radio" name="{{ field.name }}" value="E">
-                            <span></span>{{ label_pair.0 }}
-                        </label>
-                        <!-- Exemplo de opção de ponto neutro para o centro -->
-                        <label>
-                            <input type="radio" name="{{ field.name }}" value="N">
-                            <span></span>
-                        </label>
-                        <label>
-                            <input type="radio" name="{{ field.name }}" value="I">
-                            <span></span>{{ label_pair.1 }}
-                        </label>
-                    </div>
-                </li>
+            {% for question, label_pair in question_label_pairs %}
+              <li class="question-item">
+                <p>{{ question.text }}</p>
+                <div class="options">
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="E" />
+                    <span class="circle large"></span>{{ label_pair.0 }}
+                  </label>
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="E" />
+                    <span class="circle medium"></span>
+                  </label>
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="E" />
+                    <span class="circle small"></span>
+                  </label>
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="I" />
+                    <span class="circle small"></span>
+                  </label>
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="I" />
+                    <span class="circle medium"></span>
+                  </label>
+                  <label>
+                    <input type="radio" name="{{ question.id }}" value="I" />
+                    <span class="circle large"></span>{{ label_pair.1 }}
+                  </label>
+                </div>
+              </li>
             {% endfor %}
-        </ul>
+          </ul>
         </div>
       </div>
 
@@ -200,7 +211,7 @@
   </form>
 
   <script>
-    const totalQuestions = parseInt("{{ total_questions }}", 10);
+    const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
     let currentQuestion = 0;
 
     function updateProgress() {
@@ -209,7 +220,25 @@
       progressElement.style.width = progressPercentage + "%";
     }
 
-    updateProgress();
+    function nextQuestion() {
+      const questionItems = document.querySelectorAll(".question-item");
+      if (currentQuestion < totalQuestions - 1) {
+        questionItems[currentQuestion].classList.add("inactive");
+        currentQuestion++;
+        questionItems[currentQuestion].classList.remove("inactive");
+        updateProgress();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const questionItems = document.querySelectorAll(".question-item");
+      questionItems.forEach((item, index) => {
+        if (index !== 0) {
+          item.classList.add("inactive");
+        }
+      });
+      updateProgress();
+    });
   </script>
 </body>
 </html>

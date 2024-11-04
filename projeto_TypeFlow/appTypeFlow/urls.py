@@ -7,6 +7,6 @@ urlpatterns = [
     path('teste2_mbti/', views.teste2_mbti, name='teste2_mbti'),
     path('teste3_mbti/', views.teste3_mbti, name='teste3_mbti'),
     path('teste4_mbti/', views.teste4_mbti, name='teste4_mbti'),
-    path('result/', views.result_view, name='result'),
     path('quiz/<int:page>/', views.quiz_view, name='quiz_view'),
+    path('result/', views.result_view, name='result_view'),
     ]
