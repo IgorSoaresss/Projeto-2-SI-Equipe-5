@@ -31,6 +31,7 @@
     }
 
     .progress-bar {
+      position: relative;
       width: 75%;
       height: 25px;
       background-color: #ffffff;
@@ -41,10 +42,15 @@
     }
 
     .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 0%;
       height: 100%;
       background-color: #9b59b6;
       transition: width 0.3s;
+      color: white;
+      font-weight: bold;
     }
 
     .content {
@@ -121,16 +127,47 @@
       width: 100%;
     }
 
-    .options label span {
+    .options input[type="radio"] {
+      display: none;
+    }
+
+    .options label {
+      font-weight: bold;
+      color: #333;
+      flex-basis: 15%; /* Espaço para os labels nas extremidades */
+      text-align: center;
+    }
+
+    .options .scale-options {
+      display: flex;
+      justify-content: space-between;
+      flex-basis: 70%;
+    }
+
+    .options .circle {
       display: inline-block;
       border-radius: 50%;
       border: 2px solid #333;
-      margin-bottom: 5px;
-      transition: background-color 0.3s;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    .options input[type="radio"]:checked + span {
+    .circle.small {
+      width: 20px;
+      height: 20px;
+    }
+
+    .circle.medium {
+      width: 25px;
+      height: 25px;
+    }
+
+    .circle.large {
+      width: 35px;
+      height: 35px;
+    }
+
+    input[type="radio"]:checked + .circle {
       background-color: #9b59b6;
     }
 
@@ -152,6 +189,23 @@
       transform: translateY(-3px);
       box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
     }
+
+    .fade-in {
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -160,85 +214,111 @@
     {% csrf_token %}
     <div class="container">
       <div class="progress-bar">
-        <div class="progress" id="progress"></div>
+        <div class="progress" id="progress">0%</div>
       </div>
 
       <div class="content">
         <div class="image-container">
-          <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem">
+          <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem" />
         </div>
 
         <div class="text-container">
           <h1>Como você percebe e assimila as informações?</h1>
           <ul class="question-list">
             {% for question, label_pair in question_label_pairs %}
-              <li class="question-item">
-                <p>{{ question.text }}</p>
-                <div class="options">
+            <li class="question-item inactive">
+              <p>{{ question.text }}</p>
+              <div class="options">
+                <label>{{ label_pair.0 }}</label>
+                <div class="scale-options">
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
-                    <span class="circle large"></span>{{ label_pair.0 }}
+                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
+                    <span class="circle large"></span>
                   </label>
+
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
+                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
                     <span class="circle medium"></span>
                   </label>
+
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
+                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
                     <span class="circle small"></span>
                   </label>
+
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
+                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
                     <span class="circle small"></span>
                   </label>
+
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
+                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
                     <span class="circle medium"></span>
                   </label>
+
                   <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
-                    <span class="circle large"></span>{{ label_pair.1 }}
+                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
+                    <span class="circle large"></span>
                   </label>
                 </div>
-              </li>
+                <label>{{ label_pair.1 }}</label>
+              </div>
+            </li>
             {% endfor %}
           </ul>
         </div>
       </div>
 
-      <button type="submit" class="proximo-btn">Próxima</button>
+      <button type="button" class="proximo-btn hidden" onclick="goToNextPage()">Próxima</button>
     </div>
   </form>
-
   <script>
     const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
     let currentQuestion = 0;
+    let accumulatedQuestions = parseInt(localStorage.getItem('accumulatedQuestions')) || 0;
 
     function updateProgress() {
       const progressElement = document.getElementById("progress");
-      const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
+      const progressPercentage = ((accumulatedQuestions + currentQuestion + 1) / totalQuestions) * 100;
       progressElement.style.width = progressPercentage + "%";
+      progressElement.textContent = `${Math.round(progressPercentage)}%`;
+      localStorage.setItem('accumulatedQuestions', accumulatedQuestions + currentQuestion);
     }
 
-    function nextQuestion() {
+    function selectAnswer(selectedOption) {
       const questionItems = document.querySelectorAll(".question-item");
-      if (currentQuestion < totalQuestions - 1) {
-        questionItems[currentQuestion].classList.add("inactive");
-        currentQuestion++;
+
+      questionItems[currentQuestion].classList.add("inactive");
+      currentQuestion++;
+
+      if (currentQuestion < questionItems.length) {
         questionItems[currentQuestion].classList.remove("inactive");
-        updateProgress();
+        questionItems[currentQuestion].classList.add("fade-in");
+      }
+
+      updateProgress();
+
+      if (currentQuestion === questionItems.length) {
+        document.querySelector(".proximo-btn").classList.remove("hidden");
       }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
       const questionItems = document.querySelectorAll(".question-item");
       questionItems.forEach((item, index) => {
-        if (index !== 0) {
+        if (index !== currentQuestion) {
           item.classList.add("inactive");
         }
       });
       updateProgress();
     });
+
+    function goToNextPage() {
+      accumulatedQuestions += currentQuestion;
+      localStorage.setItem('accumulatedQuestions', accumulatedQuestions);
+      localStorage.setItem('currentQuestion', 0);
+      document.querySelector("form").submit();
+    }
   </script>
 </body>
 </html>

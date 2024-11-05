@@ -41,10 +41,15 @@
     }
 
     .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 0%;
       height: 100%;
       background-color: #FFC107;
       transition: width 0.3s;
+      color: white;
+      font-weight: bold;
     }
 
     .content {
@@ -125,13 +130,44 @@
       display: none;
     }
 
-    .options label span {
+    .options label {
+      font-weight: bold;
+      color: #333;
+      flex-basis: 15%; /* Espaço para os labels nas extremidades */
+      text-align: center;
+    }
+
+    .options .scale-options {
+      display: flex;
+      justify-content: space-between;
+      flex-basis: 70%;
+    }
+
+    .options .circle {
       display: inline-block;
       border-radius: 50%;
       border: 2px solid #333;
-      margin-bottom: 5px;
-      transition: background-color 0.3s;
       cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .circle.small {
+      width: 20px;
+      height: 20px;
+    }
+
+    .circle.medium {
+      width: 25px;
+      height: 25px;
+    }
+
+    .circle.large {
+      width: 35px;
+      height: 35px;
+    }
+
+    input[type="radio"]:checked + .circle {
+      background-color: #FFC107;
     }
 
     .proximo-btn {
@@ -152,14 +188,18 @@
       transform: translateY(-2px);
       box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <form method="post" action="{% url 'result_view' %}"> <!-- Ajustado para enviar ao resultado -->
+  <form method="post" action="{% url 'result_view' %}"> <!-- Envia ao resultado final -->
     {% csrf_token %}
     <div class="container">
       <div class="progress-bar">
-        <div class="progress" id="progress"></div>
+        <div class="progress" id="progress">0%</div>
       </div>
 
       <div class="content">
@@ -171,33 +211,37 @@
           <h1>Final do Teste de Personalidade</h1>
           <ul class="question-list">
             {% for question, label_pair in question_label_pairs %}
-              <li class="question-item">
+              <li class="question-item inactive">
                 <p>{{ question.text }}</p>
                 <div class="options">
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
-                    <span class="circle large"></span>{{ label_pair.0 }}
-                  </label>
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
-                    <span class="circle medium"></span>
-                  </label>
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="E" />
-                    <span class="circle small"></span>
-                  </label>
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
-                    <span class="circle small"></span>
-                  </label>
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
-                    <span class="circle medium"></span>
-                  </label>
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="I" />
-                    <span class="circle large"></span>{{ label_pair.1 }}
-                  </label>
+                  <label>{{ label_pair.0 }}</label>
+                  <div class="scale-options">
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <span class="circle large"></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <span class="circle medium"></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <span class="circle small"></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <span class="circle small"></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <span class="circle medium"></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <span class="circle large"></span>
+                    </label>
+                  </div>
+                  <label>{{ label_pair.1 }}</label>
                 </div>
               </li>
             {% endfor %}
@@ -205,34 +249,49 @@
         </div>
       </div>
 
-      <button type="submit" class="proximo-btn">Finalizar Teste</button>
+      <button type="submit" class="proximo-btn hidden">Finalizar Teste</button>
     </div>
   </form>
 
   <script>
+    console.log("JavaScript carregado");
+
+    const questionsPerPage = 12;
     const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
-    let currentQuestion = 0;
+    let currentQuestion = parseInt(localStorage.getItem('currentQuestion')) || 48; // Ponto inicial da página final
+    let progressPercentage = parseFloat(localStorage.getItem('progressPercentage')) || 75;
 
     function updateProgress() {
       const progressElement = document.getElementById("progress");
-      const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
+      progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
       progressElement.style.width = progressPercentage + "%";
+      progressElement.textContent = `${Math.round(progressPercentage)}%`;
+      localStorage.setItem('progressPercentage', progressPercentage);
     }
 
-    function nextQuestion() {
+    function selectAnswer(selectedOption) {
       const questionItems = document.querySelectorAll(".question-item");
-      if (currentQuestion < totalQuestions - 1) {
-        questionItems[currentQuestion].classList.add("inactive");
-        currentQuestion++;
-        questionItems[currentQuestion].classList.remove("inactive");
-        updateProgress();
+
+      questionItems[currentQuestion % questionsPerPage].classList.add("inactive");
+      currentQuestion++;
+      localStorage.setItem('currentQuestion', currentQuestion);
+
+      if (currentQuestion % questionsPerPage < questionItems.length) {
+        questionItems[currentQuestion % questionsPerPage].classList.remove("inactive");
+        questionItems[currentQuestion % questionsPerPage].classList.add("fade-in");
+      }
+
+      updateProgress();
+
+      if ((currentQuestion % questionsPerPage) === questionItems.length) {
+        document.querySelector(".proximo-btn").classList.remove("hidden");
       }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
       const questionItems = document.querySelectorAll(".question-item");
       questionItems.forEach((item, index) => {
-        if (index !== 0) {
+        if (index !== (currentQuestion % questionsPerPage)) {
           item.classList.add("inactive");
         }
       });
