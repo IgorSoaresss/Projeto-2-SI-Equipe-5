@@ -204,7 +204,7 @@
 
       <div class="content">
         <div class="image-container">
-          <img src="{% static 'img/mago_mbti.png' %}" alt="Personagem" class="imagem">
+          <img src="{% static 'img/boneco_mbti_amarelo.png' %}" alt="Personagem" class="imagem">
         </div>
 
         <div class="text-container">
@@ -217,27 +217,27 @@
                   <label>{{ label_pair.0 }}</label>
                   <div class="scale-options">
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="P" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="P" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="E" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="P" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="J" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="J" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="I" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ question.id }}" value="J" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
                   </div>
@@ -256,47 +256,48 @@
   <script>
     console.log("JavaScript carregado");
 
-    const questionsPerPage = 12;
-    const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
-    let currentQuestion = parseInt(localStorage.getItem('currentQuestion')) || 48; // Ponto inicial da página final
-    let progressPercentage = parseFloat(localStorage.getItem('progressPercentage')) || 75;
+      const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
+      let currentQuestion = 0;
 
-    function updateProgress() {
-      const progressElement = document.getElementById("progress");
-      progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
-      progressElement.style.width = progressPercentage + "%";
-      progressElement.textContent = `${Math.round(progressPercentage)}%`;
-      localStorage.setItem('progressPercentage', progressPercentage);
-    }
-
-    function selectAnswer(selectedOption) {
-      const questionItems = document.querySelectorAll(".question-item");
-
-      questionItems[currentQuestion % questionsPerPage].classList.add("inactive");
-      currentQuestion++;
-      localStorage.setItem('currentQuestion', currentQuestion);
-
-      if (currentQuestion % questionsPerPage < questionItems.length) {
-        questionItems[currentQuestion % questionsPerPage].classList.remove("inactive");
-        questionItems[currentQuestion % questionsPerPage].classList.add("fade-in");
+      function updateProgress() {
+        const progressElement = document.getElementById("progress");
+        const progressPercentage =
+          ((currentQuestion + 1) / totalQuestions) * 100;
+        progressElement.style.width = progressPercentage + "%";
+        progressElement.textContent = `${Math.round(progressPercentage)}%`;
       }
 
-      updateProgress();
+      function selectAnswer(selectedOption) {
+        const questionItems = document.querySelectorAll(".question-item");
 
-      if ((currentQuestion % questionsPerPage) === questionItems.length) {
-        document.querySelector(".proximo-btn").classList.remove("hidden");
-      }
-    }
+        questionItems[currentQuestion].classList.add("inactive");
+        currentQuestion++;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const questionItems = document.querySelectorAll(".question-item");
-      questionItems.forEach((item, index) => {
-        if (index !== (currentQuestion % questionsPerPage)) {
-          item.classList.add("inactive");
+        if (currentQuestion < questionItems.length) {
+          questionItems[currentQuestion].classList.remove("inactive");
+          questionItems[currentQuestion].classList.add("fade-in");
         }
+
+        updateProgress();
+
+        if (currentQuestion === questionItems.length) {
+          document.querySelector(".proximo-btn").classList.remove("hidden");
+        }
+      }
+
+      function goToNextPage() {
+        document.querySelector("form").submit();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const questionItems = document.querySelectorAll(".question-item");
+        questionItems.forEach((item, index) => {
+          if (index !== 0) {
+            item.classList.add("inactive");
+          }
+        });
+        updateProgress();
       });
-      updateProgress();
-    });
   </script>
 </body>
 </html>
