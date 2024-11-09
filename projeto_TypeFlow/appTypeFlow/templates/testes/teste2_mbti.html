@@ -1,324 +1,384 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste de Personalidade - Parte 2</title>
-  <style>
-    /* Estilos gerais */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body,
-    html {
-      width: 100%;
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      width: 100%;
-      min-height: 100vh;
-      background: linear-gradient(to right, #8e44ad 20%, #d2b4de 40%, #ffffff 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 20px;
-    }
-
-    .progress-bar {
-      position: relative;
-      width: 75%;
-      height: 25px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 20px;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .progress {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 0%;
-      height: 100%;
-      background-color: #9b59b6;
-      transition: width 0.3s;
-      color: white;
-      font-weight: bold;
-    }
-
-    .content {
-      display: flex;
-      align-items: flex-start;
-      width: 80%;
-      max-width: 1200px;
-      margin-top: 20px;
-    }
-
-    .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-      margin-top: 140px;
-      margin-right: 70px;
-    }
-
-    .image-container img {
-      max-width: 300px;
-      height: auto;
-    }
-
-    .text-container {
-      flex: 3;
-      color: #333;
-      text-align: left;
-    }
-
-    .text-container h1 {
-      font-size: 2.5em;
-      color: #a569bd;
-      text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8), 1px 1px 10px rgba(0, 0, 0, 0.4);
-      padding: 10px 0;
-      letter-spacing: 1px;
-    }
-
-    .question-list {
-      list-style-type: none;
-      padding: 0;
-      width: 100%;
-      max-height: 60vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #9b59b6 #ffffff;
-    }
-
-    .question-item {
-      background-color: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      font-size: 1.3em;
-      text-align: center;
-    }
-
-    .question-item.inactive {
-      opacity: 0.5;
-      transform: translateY(-10px);
-      filter: grayscale(80%);
-    }
-
-    .options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-      width: 100%;
-    }
-
-    .options input[type="radio"] {
-      display: none;
-    }
-
-    .options label {
-      font-weight: bold;
-      color: #333;
-      flex-basis: 15%; /* Espaço para os labels nas extremidades */
-      text-align: center;
-    }
-
-    .options .scale-options {
-      display: flex;
-      justify-content: space-between;
-      flex-basis: 70%;
-    }
-
-    .options .circle {
-      display: inline-block;
-      border-radius: 50%;
-      border: 2px solid #333;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .circle.small {
-      width: 20px;
-      height: 20px;
-    }
-
-    .circle.medium {
-      width: 25px;
-      height: 25px;
-    }
-
-    .circle.large {
-      width: 35px;
-      height: 35px;
-    }
-
-    input[type="radio"]:checked + .circle {
-      background-color: #9b59b6;
-    }
-
-    .proximo-btn {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      background-color: #6c3483;
-      color: white;
-      border: 2px solid #9b59b6;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 25px;
-      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    }
-
-    .proximo-btn:hover {
-      background-color: #8e44ad;
-      transform: translateY(-3px);
-      box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
-    }
-
-    .fade-in {
-      animation: fadeIn 0.5s forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
-</head>
-
-<body>
-  <form method="post" action="{% url 'quiz_view' page=page|add:1 %}">
-    {% csrf_token %}
-    <div class="container">
-      <div class="progress-bar">
-        <div class="progress" id="progress">0%</div>
-      </div>
-
-      <div class="content">
-        <div class="image-container">
-          <img src="{% static 'img/boneco_mbti_roxo.png' %}" alt="Personagem" class="imagem" />
-        </div>
-
-        <div class="text-container">
-          <h1>Como você percebe e assimila as informações?</h1>
-          <ul class="question-list">
-            {% for question, label_pair in question_label_pairs %}
-            <li class="question-item inactive">
-              <p>{{ question.text }}</p>
-              <div class="options">
-                <label>{{ label_pair.0 }}</label>
-                <div class="scale-options">
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
-                    <span class="circle large"></span>
-                  </label>
-
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
-                    <span class="circle medium"></span>
-                  </label>
-
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="S" onclick="selectAnswer(this)">
-                    <span class="circle small"></span>
-                  </label>
-
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
-                    <span class="circle small"></span>
-                  </label>
-
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
-                    <span class="circle medium"></span>
-                  </label>
-
-                  <label>
-                    <input type="radio" name="{{ question.id }}" value="N" onclick="selectAnswer(this)">
-                    <span class="circle large"></span>
-                  </label>
-                </div>
-                <label>{{ label_pair.1 }}</label>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      <button type="button" class="proximo-btn hidden" onclick="goToNextPage()">Próxima</button>
-    </div>
-  </form>
-  <script>
-    const totalQuestions = parseInt("{{ total_questions|default:'0' }}", 10);
-    let currentQuestion = 0;
-    let accumulatedQuestions = parseInt(localStorage.getItem('accumulatedQuestions')) || 0;
-
-    function updateProgress() {
-      const progressElement = document.getElementById("progress");
-      const progressPercentage = ((accumulatedQuestions + currentQuestion + 1) / totalQuestions) * 100;
-      progressElement.style.width = progressPercentage + "%";
-      progressElement.textContent = `${Math.round(progressPercentage)}%`;
-      localStorage.setItem('accumulatedQuestions', accumulatedQuestions + currentQuestion);
-    }
-
-    function selectAnswer(selectedOption) {
-      const questionItems = document.querySelectorAll(".question-item");
-
-      questionItems[currentQuestion].classList.add("inactive");
-      currentQuestion++;
-
-      if (currentQuestion < questionItems.length) {
-        questionItems[currentQuestion].classList.remove("inactive");
-        questionItems[currentQuestion].classList.add("fade-in");
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste de Personalidade - Parte 2</title>
+    <style>
+      /* Estilos gerais */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      updateProgress();
-
-      if (currentQuestion === questionItems.length) {
-        document.querySelector(".proximo-btn").classList.remove("hidden");
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        font-family: Arial, sans-serif;
       }
-    }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const questionItems = document.querySelectorAll(".question-item");
-      questionItems.forEach((item, index) => {
-        if (index !== currentQuestion) {
-          item.classList.add("inactive");
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(
+          to right,
+          #8e44ad 20%,
+          #d2b4de 40%,
+          #ffffff 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+      }
+
+      .progress-bar {
+        position: relative;
+        width: 75%;
+        height: 25px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 20px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 0%;
+        height: 100%;
+        background-color: #9b59b6;
+        transition: width 0.3s;
+        color: white;
+        font-weight: bold;
+      }
+
+      .content {
+        display: flex;
+        align-items: flex-start;
+        width: 80%;
+        max-width: 1200px;
+        margin-top: 20px;
+      }
+
+      .image-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        margin-top: 140px;
+        margin-right: 70px;
+      }
+
+      .image-container img {
+        max-width: 300px;
+        height: auto;
+      }
+
+      .text-container {
+        flex: 3;
+        color: #333;
+        text-align: left;
+      }
+
+      .text-container h1 {
+        font-size: 2.5em;
+        color: #a569bd;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8),
+          1px 1px 10px rgba(0, 0, 0, 0.4);
+        padding: 10px 0;
+        letter-spacing: 1px;
+      }
+
+      .question-list {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #9b59b6 #ffffff;
+      }
+
+      .question-item {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        font-size: 1.3em;
+        text-align: center;
+      }
+
+      .question-item.inactive {
+        opacity: 0.5;
+        transform: translateY(-10px);
+        filter: grayscale(80%);
+      }
+
+      .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .options input[type="radio"] {
+        display: none;
+      }
+
+      .options label {
+        font-weight: bold;
+        color: #333;
+        flex-basis: 15%; /* Espaço para os labels nas extremidades */
+        text-align: center;
+      }
+
+      .options .scale-options {
+        display: flex;
+        justify-content: space-between;
+        flex-basis: 70%;
+      }
+
+      .options .circle {
+        display: inline-block;
+        border-radius: 50%;
+        border: 2px solid #333;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .circle.small {
+        width: 20px;
+        height: 20px;
+      }
+
+      .circle.medium {
+        width: 25px;
+        height: 25px;
+      }
+
+      .circle.large {
+        width: 35px;
+        height: 35px;
+      }
+
+      input[type="radio"]:checked + .circle {
+        background-color: #9b59b6;
+      }
+
+      .proximo-btn {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        background-color: #6c3483;
+        color: white;
+        border: 2px solid #9b59b6;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 25px;
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+
+      .proximo-btn:hover {
+        background-color: #8e44ad;
+        transform: translateY(-3px);
+        box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-      });
-      updateProgress();
-    });
+        to {
+          opacity: 1;
+        }
+      }
 
-    function goToNextPage() {
-      accumulatedQuestions += currentQuestion;
-      localStorage.setItem('accumulatedQuestions', accumulatedQuestions);
-      localStorage.setItem('currentQuestion', 0);
-      document.querySelector("form").submit();
-    }
-  </script>
-</body>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form method="post" action="{% url 'quiz_view' page=page|add:1 %}">
+      {% csrf_token %}
+      <div class="container">
+        <div class="progress-bar">
+          <div class="progress" id="progress">0%</div>
+        </div>
+
+        <div class="content">
+          <div class="image-container">
+            <img
+              src="{% static 'img/boneco_mbti_roxo.png' %}"
+              alt="Personagem"
+              class="imagem"
+            />
+          </div>
+
+          <div class="text-container">
+            <h1>Como você percebe e assimila as informações?</h1>
+            <ul class="question-list">
+              {% for question, label_pair in question_label_pairs %}
+              <li class="question-item inactive">
+                <p>{{ question.text }}</p>
+                <div class="options">
+                  <label>{{ label_pair.0 }}</label>
+                  <div class="scale-options">
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="S"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle large"></span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="S"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle medium"></span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="S"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle small"></span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="N"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle small"></span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="N"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle medium"></span>
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="{{ question.id }}"
+                        value="N"
+                        onclick="selectAnswer(this)"
+                      />
+                      <span class="circle large"></span>
+                    </label>
+                  </div>
+                  <label>{{ label_pair.1 }}</label>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="proximo-btn hidden"
+          onclick="goToNextPage()"
+        >
+          Próxima
+        </button>
+      </div>
+    </form>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const questionItems = document.querySelectorAll(".question-item");
+        const progressElement = document.getElementById("progress");
+        const proximoBtn = document.querySelector(".proximo-btn");
+        let currentQuestion = 0;
+        const totalQuestions = parseInt(
+          "{{ total_questions|default:'0' }}",
+          10
+        );
+
+        // Função para atualizar a barra de progresso
+        function updateProgress() {
+          const progressPercentage =
+            ((currentQuestion + 1) / totalQuestions) * 100;
+          progressElement.style.width = progressPercentage + "%";
+          progressElement.textContent = `${Math.round(progressPercentage)}%`;
+        }
+
+        // Função para selecionar resposta e atualizar pergunta ativa
+        function selectAnswer(selectedOption) {
+          questionItems[currentQuestion].classList.add("inactive");
+          currentQuestion++;
+
+          // Verifica se há mais perguntas na página
+          if (currentQuestion < questionItems.length) {
+            questionItems[currentQuestion].classList.remove("inactive");
+            questionItems[currentQuestion].classList.add("fade-in");
+          }
+
+          // Atualiza a barra de progresso
+          updateProgress();
+
+          // Exibe o botão "Próxima" apenas quando todas as perguntas forem respondidas
+          if (currentQuestion === questionItems.length) {
+            proximoBtn.classList.remove("hidden");
+          }
+        }
+
+        // Inicializa as perguntas
+        questionItems.forEach((item, index) => {
+          if (index !== currentQuestion) {
+            item.classList.add("inactive");
+          }
+        });
+
+        // Atualiza a barra de progresso na carga inicial
+        updateProgress();
+
+        // Atribui a função de seleção de resposta a cada opção
+        document
+          .querySelectorAll(".options input[type='radio']")
+          .forEach((option) => {
+            option.addEventListener("click", () => selectAnswer(option));
+          });
+
+        // Função para ir para a próxima página ao clicar no botão "Próxima"
+        proximoBtn.addEventListener("click", function () {
+          document.querySelector("form").submit();
+        });
+      });
+    </script>
+  </body>
 </html>
