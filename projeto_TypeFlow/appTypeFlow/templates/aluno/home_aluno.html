@@ -16,6 +16,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        background-color: #E4FF7F;
       }
 
       /* barra de navegação */
@@ -110,22 +111,24 @@
         }
 
         .custom-button {
-            background-color: #b0b0b0;
-            color: black;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px;
-            display: inline-block;
-            min-width: 200px;
-            text-align: center;
-            transition: background-color 0.3s;
+          font-weight: bold;
+          text-decoration: none;
+          background-color: #FFA33F;
+          color: white;
+          padding: 15px 30px;
+          border: none;
+          border-radius: 25px;
+          font-size: 18px;
+          cursor: pointer;
+          margin: 10px;
+          display: inline-block;
+          min-width: 200px;
+          text-align: center;
+          transition: background-color 0.5s;
         }
 
         .custom-button:hover {
-            background-color: #8f8f8f;
+            background-color: #F78914;
         }
 
       main {
@@ -151,14 +154,36 @@
         line-height: 1.5;
         color: #333;
         text-align: justify;
-        max-width: 50%;
+        max-width: 100%;
       }
       .mbti-info h3 {
-        font-size: 20px;
+        font-size: 40px;
         font-weight: bold;
         margin-bottom: 10px;
-        color: #26a013;
+        color: #92cd28;
         text-align: center;
+      }
+
+      .mbti-info .subtitulo {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #92cd28;
+      }
+
+      .mbti-info p {
+        text-indent: 20px;
+      }
+
+      .mbti-info .textoComGrafico {
+        max-width: 50%;
+        text-indent: 20px;
+      }
+
+      br + span::before{
+        content: " "; /* Adiciona um espaço */
+        display: inline-block;
+        width: 20px; /* Tamanho do recuo */
       }
 
       .progress-chart {
@@ -202,6 +227,53 @@
       .footer p {
         font-size: 14px;
       }
+
+      .menu {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .menu button {
+        font-size: 20px;
+        padding: 10px 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: relative; /* Necessário para posicionar a linha */
+        transition: color 0.3s ease;
+      }
+
+      .menu button:hover {
+      color: darkred; /* Cor ao passar o mouse */
+      }
+      
+      .menu button.active::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: black; /* Cor da linha visível no botão ativo*/
+      border-radius: 3px;
+      transform: scaleX(1); /* Torna a linha visível */
+      transition: all 0.4s ease; /* Transição suave da barrinha */
+      }
+
+      .menu button::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        right: 50%;
+        height: 3px;
+        background-color: transparent; /* Linha invisível por padrão */
+        transform: scaleX(0); /* Oculta a linha */
+        transition: all 0.4s ease;
+      }
     </style>
   </head>
   <body>
@@ -229,9 +301,7 @@
 
     <!-- Barra Lateral (Sidebar) -->
     <div id="sidebar" class="sidebar">
-      <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()"
-        >&times;</a
-      >
+      <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
       <a href="#">Perfil</a>
       <a href="#">Contate-nos</a>
       <a href="#">Configurações</a>
@@ -245,24 +315,26 @@
       </p>
 
       <!-- Botão de Início do Teste -->
-      <a href="{% url 'teste1_mbti' %}" class="custom-button"
-        >Teste de MBTI</a
-      >
+      <a href="{% url 'teste1_mbti' %}" class="custom-button">FAZER TESTE</a>
 
-      <!-- Contêiner flexível para o texto e o gráfico -->
+      <div class="menu">
+        <button onclick="showContent('section1')">Conhecendo o MBTI</button>
+        <button onclick="showContent('section2')">MBTI, tecnicamente</button>
+        <button onclick="showContent('section3')">Seu progresso</button>
+      </div>
+      
+        <!-- Contêiner flexível para o texto e o gráfico -->
       <div class="content-container">
         <!-- Bloco de texto explicativo -->
-        <div class="mbti-info">
-          <h3>A História do MBTI e Sua Importância</h3>
+        <div id="section1" class="mbti-info">
+          <h3>A História do MBTI</h3>
           <p>
             O <strong>MBTI (Myers-Briggs Type Indicator)</strong> foi
             desenvolvido por Katharine Cook Briggs e sua filha, Isabel Briggs
             Myers, durante a Segunda Guerra Mundial. Inspiradas nas teorias de
-            Carl Jung, elas criaram o teste para ajudar as pessoas a
-            compreenderem melhor suas personalidades, especialmente em contextos
-            de trabalho e cooperação. Inicialmente, o MBTI foi concebido para
+            Carl Gustav Jung, a intenção inicial era criar uma ferramenta prática para ajudar as pessoas a entenderem suas próprias personalidades e trabalharem melhor juntas, especialmente no contexto do esforço de guerra, onde a alocação correta de talentos era crucial. Ou seja, o MBTI foi concebido para
             melhorar a eficiência e satisfação no trabalho, ao alinhar as
-            habilidades naturais de cada pessoa com suas funções profissionais.
+            habilidades naturais de cada pessoa com suas funções profissionais, visando o mesmo objetivo.
           </p>
           <p>
             O teste categoriza as pessoas em um dos
@@ -288,10 +360,56 @@
             explorar formas de melhorar suas habilidades, ajustar comportamentos
             e adotar estratégias mais eficazes em diversas situações da vida.
           </p>
+
+          <h3>A Importância do MBTI</h3>
+
+          <h3 class="subtitulo">Em grupos de projetos</h3>
+          <p>
+            No contexto de grupos de projetos, o MBTI facilita a divisão de 
+            tarefas e a gestão de conflitos. Por exemplo, um grupo pode designar
+            extrovertidos (E) para papéis de liderança em apresentações e 
+            introvertidos (I) para tarefas analíticas. Da mesma forma, julgadores
+            (J) podem organizar cronogramas, enquanto perceptores (P) lidam bem 
+            com adaptações em situações inesperadas.
+            <br>
+            <span>Ao entender os perfis individuais, o grupo pode alavancar os 
+            pontos fortes de cada membro, melhorar a cooperação e aumentar a 
+            eficiência. Mais importante, evita-se frustrações e conflitos, já que 
+            os diferentes estilos de trabalho passam a ser respeitados e 
+            compreendidos.</span>
+          </p>
+          <p class="textoComGrafico">
+            No gráfico ao lado, vemos bla bla bla bla bla bla bla bla bla bla bla 
+            bla bla bla bla bla
+          </p>
+
+          <h3 class="subtitulo">Em sala de aula</h3>
+          <p>
+            O MBTI pode ser uma ferramenta valiosa em ambientes acadêmicos, 
+            ajudando alunos e professores a compreenderem estilos de aprendizado 
+            e interação. Por exemplo, alunos com preferências intuitivas (N) 
+            podem prosperar em discussões teóricas, enquanto os sensoriais (S) 
+            podem preferir abordagens práticas e aplicadas. Professores que 
+            conhecem os tipos de seus alunos podem adaptar suas metodologias de 
+            ensino para engajar melhor todos os perfis, criando um ambiente mais 
+            inclusivo e produtivo.
+            <br>
+            <span>Além disso, o MBTI promove a aceitação das diferenças, um fator 
+            crucial para o trabalho em grupo e para a formação de uma comunidade 
+            acadêmica diversificada.</span>
+          </p>
+          <p class="textoComGrafico">
+            No gráfico ao lado, vemos bla bla bla bla bla bla bla bla bla bla bla 
+            bla bla bla bla bla
+          </p>
+        </div>
+
+        <div id="section2" class="mbti-info">
+          <h3>Teste</h3>
         </div>
 
         <!-- Gráfico de Progresso -->
-        <div class="progress-chart">
+        <div id="section3" class="progress-chart">
           <canvas id="progressoGrafico"></canvas>
         </div>
       </div>
@@ -344,6 +462,31 @@
       // Renderização do gráfico no canvas
       const ctx = document.getElementById("progressoGrafico").getContext("2d");
       new Chart(ctx, config);
+    </script>
+
+    <script>
+      function showContent(sectionId) {
+          // Esconde todos os conteúdos
+          const sections = document.querySelectorAll('.content-container > div');
+          sections.forEach(section => section.style.display = 'none');
+
+          // Mostra o conteúdo clicado
+          const activeSection = document.getElementById(sectionId);
+          activeSection.style.display = 'block';
+        
+          // Remove a classe ativa de todos os botões
+          const buttons = document.querySelectorAll('.menu button');
+          buttons.forEach(button => button.classList.remove('active'));
+
+          // Adiciona a classe ativa ao botão clicado
+          const activeButton = document.querySelector(`button[onclick="showContent('${sectionId}')"]`);
+          activeButton.classList.add('active');
+        }
+
+        // Exibe apenas a primeira seção ao carregar a página
+        document.addEventListener("DOMContentLoaded", () => {
+          showContent('section1');
+        });
     </script>
   </body>
 </html>
