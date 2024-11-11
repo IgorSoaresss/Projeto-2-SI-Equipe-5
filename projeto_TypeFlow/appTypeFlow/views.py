@@ -90,7 +90,7 @@ def quiz_view(request, page=1):
         ("Sistemático", "Improvisado"),
         ("Disciplinado", "Sem regras"),
         ("Segue rotina", "Aberto a mudanças"),
-        ("Focado em objetivos", "Vê oportunidades")
+        ("Focado em objetivos", "Vê oportunidades"),
     ]
 
     # Emparelhar perguntas com rótulos

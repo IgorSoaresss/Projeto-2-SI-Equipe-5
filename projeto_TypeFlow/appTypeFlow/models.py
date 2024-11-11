@@ -13,7 +13,7 @@ class Question(models.Model):
         ('EI', 'Extroversion/Introversion'),
         ('SN', 'Sensing/Intuition'),
         ('TF', 'Thinking/Feeling'),
-        ('JP', 'Judging/Perceiving')
+        ('JP', 'Judging/Perceiving'),
     ])
 
 class MBTIResult(models.Model):
