@@ -156,9 +156,6 @@ def result_view(request):
     # Recuperar o tipo MBTI da sessão
     mbti_type = request.session.get('mbti_type')
 
-    # Verificar se o tipo MBTI está presente
-    if not mbti_type:
-        return redirect('home_aluno')
 
     # Tentar obter a descrição do tipo MBTI do banco de dados
     try:
@@ -166,12 +163,19 @@ def result_view(request):
     except MBTIDescription.DoesNotExist:
         mbti_info = None
 
+        # Buscar os dados do último teste para o usuário logado
+    user = request.user if request.user.is_authenticated else None
+    result = MBTIResult.objects.filter(user=user).last()
+
     # Limpar o progresso da sessão após o teste
     if 'quizProgress' in request.session:
         del request.session['quizProgress']
 
     # Renderizar a página de resultados com as informações do MBTI
-    return render(request, 'testes/result.html', {'mbti_info': mbti_info})
+    return render(request, 'testes/result.html', {
+        'mbti_info': mbti_info,
+        'result': result, # Enviar 'result' para o template
+    })
 
 # Outras views para redirecionar para a página inicial do teste
 def home_aluno(request):

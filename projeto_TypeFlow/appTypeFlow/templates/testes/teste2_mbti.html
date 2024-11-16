@@ -234,29 +234,29 @@
                   <div class="scale-options">
                     <!-- Bolinhas para a opção A (esquerda) -->
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="S" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="S" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="S" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
             
                     <!-- Bolinhas para a opção B (direita) -->
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="N" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="N" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
                     <label>
-                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="N" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
                   </div>
@@ -280,7 +280,7 @@
       function updateProgress() {
         const progressElement = document.getElementById("progress");
         const progressPercentage =
-          ((currentQuestion + 1) / totalQuestions) * 100;
+          ((currentQuestion + 1) / totalQuestions) * 100 + 26;
         progressElement.style.width = progressPercentage + "%";
         progressElement.textContent = `${Math.round(progressPercentage)}%`;
       }
