@@ -225,47 +225,45 @@
           <div class="text-container">
             <h1>Como você toma decisões?</h1>
             <ul class="question-list">
-              {% for question, label_pair in question_label_pairs %}
+              {% for pair in question_label_pairs %}
               <li class="question-item inactive">
-                <p>{{ question.text }}</p>
+                <p>{{ pair.question.text }}</p>
                 <div class="options">
-                  <label>{{ label_pair.0 }}</label>
+                  <label>{{ pair.label_a }}</label>
                   <div class="scale-options">
+                    <!-- Bolinhas para a opção A (esquerda) -->
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="T" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
-
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="T" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
-
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="T" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="A" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
-
+            
+                    <!-- Bolinhas para a opção B (direita) -->
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="F" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
                       <span class="circle small"></span>
                     </label>
-
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="F" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
                       <span class="circle medium"></span>
                     </label>
-
                     <label>
-                      <input type="radio" name="{{ question.id }}" value="F" onclick="selectAnswer(this)">
+                      <input type="radio" name="{{ pair.question.id }}" value="B" onclick="selectAnswer(this)">
                       <span class="circle large"></span>
                     </label>
                   </div>
-                  <label>{{ label_pair.1 }}</label>
+                  <label>{{ pair.label_b }}</label>
                 </div>
               </li>
               {% endfor %}
-            </ul>
+            </ul>            
           </div>
         </div>
 
