@@ -6,4 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('appTypeFlow/', include('appTypeFlow.urls')),  # Inclui URLs do app appTypeFlow,  
     path('', views.home_aluno, name='home_aluno'),  # Define a home_aluno como a página inicia
+    path('login/', views.login_usuario, name='login'),
+    path('logout/', views.user_logout, name='logout'),
 ]

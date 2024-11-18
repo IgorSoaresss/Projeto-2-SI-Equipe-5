@@ -147,14 +147,17 @@
                     <button type="button" id="alunoButton" class="btn-option" data-role="aluno">Aluno</button>
                 </div>
             </div>
-            <form id="loginForm">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Digite seu email" required>
-            
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" placeholder="Digite sua senha" required>
-            
-                <button type="submit" class="login-button">Fazer login</button>
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="username">Usuário:</label>
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <div>
+                    <label for="password">Senha:</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <button type="submit">Entrar</button>
             </form>
             
             <script>

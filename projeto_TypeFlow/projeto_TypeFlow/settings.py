@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'.    
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -26,6 +26,12 @@ SECRET_KEY = 'django-insecure-f(@n2d__scnflf0u*1hgfm%7h&u2kbd&_ckhvio=8kq8trmwi@
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Configurações de Login e Logout
+LOGIN_URL = '/login/'  # URL para acessar a página de login
+LOGIN_REDIRECT_URL = '/aluno/'  # URL para redirecionar após login (aluno no exemplo)
+LOGOUT_REDIRECT_URL = '/'  # URL para redirecionar após logout
+
 
 
 # Application definition
@@ -53,7 +59,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'projeto_TypeFlow.urls'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'appTypeFlow', 'static')] 
 
 TEMPLATES = [
     {

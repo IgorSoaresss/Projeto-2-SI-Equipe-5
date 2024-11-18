@@ -1,6 +1,28 @@
 from django.shortcuts import render, redirect
 from .forms import QuizForm
-from .models import Question, MBTIResult
+from .models import Pergunta, resultadoMBTI
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def login_usuario(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_staff:
+                return redirect ('/professor/') # Redireciona professores para a página deles
+        return redirect('/aluno/')  # Redireciona alunos para a página deles
+    else:
+        messages.error(request, 'Usuário ou senha inválidos.')
+    return render(request, 'login/cadastro/login.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect('/')
+    
 
 # Função para calcular o tipo MBTI com base nas respostas
 def calculate_mbti(answers):
@@ -10,7 +32,7 @@ def calculate_mbti(answers):
     # Loop para somar pontuações com base nas respostas dadas
     for question_id, choice in answers.items():
         # Obter a pergunta correspondente a partir do ID
-        question = Question.objects.get(id=question_id.split('_')[-1])
+        question = Pergunta.objects.get(id=question_id.split('_')[-1])
 
         # Incrementar a pontuação dependendo da dimensão da pergunta
         if question.dimension == 'EI':
@@ -36,8 +58,8 @@ def quiz_view(request, page=1):
     end_index = start_index + questions_per_page
 
     # Obter as perguntas do banco de dados para a página atual
-    questions = Question.objects.all()[start_index:end_index]
-    total_questions = Question.objects.count()  # Número total de perguntas no teste
+    questions = Pergunta.objects.all()[start_index:end_index]
+    total_questions = Pergunta.objects.count()  # Número total de perguntas no teste
 
     # Lista de rótulos para as opções das perguntas
     all_labels = [
@@ -118,7 +140,7 @@ def quiz_view(request, page=1):
                 request.session['mbti_type'] = mbti_type
 
                 # Salvar o resultado no banco de dados
-                MBTIResult.objects.create(user=None, mbti_type=mbti_type)
+                resultadoMBTI.objects.create(user=None, mbti_type=mbti_type)
 
                 # Redirecionar para a página de resultados
                 return redirect('result_view')
@@ -138,8 +160,8 @@ def result_view(request):
 
     # Tentar obter o último resultado salvo no banco de dados
     try:
-        result = MBTIResult.objects.latest('date_taken')
-    except MBTIResult.DoesNotExist:
+        result = resultadoMBTI.objects.latest('date_taken')
+    except resultadoMBTI.DoesNotExist:
         result = None
 
     # Limpar o progresso da sessão ao finalizar o teste
