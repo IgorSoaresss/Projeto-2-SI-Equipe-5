@@ -8,5 +8,5 @@ admin.site.register(MBTIResult)
 # Registrar o modelo 'MBTIDescription' com uma classe personalizada
 @admin.register(MBTIDescription)
 class MBTIDescriptionAdmin(admin.ModelAdmin):
-    list_display = ('type', 'descrição_geral', 'sala_de_aula','grupos_de_projetos','primary_color', 'background_color')
+    list_display = ('type', 'descricaoGeral', 'tipo', 'subtipo', 'salaDeAula', 'gruposDeProjetos','primary_color', 'background_color', 'sidebar_color')
     search_fields = ('type',)

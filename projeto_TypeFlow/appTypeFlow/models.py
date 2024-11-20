@@ -26,11 +26,17 @@ class MBTIResult(models.Model):
     
 class MBTIDescription(models.Model):
     type = models.CharField(max_length=4, unique=True)  # Ex: "INTJ", "ENFP"
-    descrição_geral = models.TextField()  # Descrição do tipo MBTI
-    sala_de_aula = models.TextField(default='')
-    grupos_de_projetos= models.TextField(default='')
-    famous_person_image = models.ImageField(upload_to='personalities/', null=True, blank=True)
-    primary_color = models.CharField(max_length=7, default='#000000')  # Cor principal (ex: #1a1aff)
+    descricaoGeral = models.TextField()  # Descrição do tipo MBTI
+    tipo = models.TextField(max_length=46)
+    subtipo = models.TextField(max_length=46, unique=True)
+    salaDeAula = models.TextField(default='')
+    gruposDeProjetos= models.TextField(default='')
+    pessoaFamosa1 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    pessoaFamosa2 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    pessoaFamosa3 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    primary_color = models.CharField(max_length=7, default='#000000')  # Cor principal
     background_color = models.CharField(max_length=7, default='#ffffff')  # Cor de fundo
+    sidebar_color = models.CharField(max_length=7, default='#000000') # Cor da sidebar
+
     def __str__(self):
         return self.type
