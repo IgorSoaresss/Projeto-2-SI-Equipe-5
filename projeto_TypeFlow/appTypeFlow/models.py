@@ -34,6 +34,9 @@ class MBTIDescription(models.Model):
     pessoaFamosa1 = models.ImageField(upload_to='personalities/', null=True, blank=True)
     pessoaFamosa2 = models.ImageField(upload_to='personalities/', null=True, blank=True)
     pessoaFamosa3 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    pessoaFamosa4 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    pessoaFamosa5 = models.ImageField(upload_to='personalities/', null=True, blank=True)
+    pessoaFamosa6 = models.ImageField(upload_to='personalities/', null=True, blank=True)
     primary_color = models.CharField(max_length=7, default='#000000')  # Cor principal
     background_color = models.CharField(max_length=7, default='#ffffff')  # Cor de fundo
     sidebar_color = models.CharField(max_length=7, default='#000000') # Cor da sidebar
