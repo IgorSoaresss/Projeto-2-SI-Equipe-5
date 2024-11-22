@@ -27,8 +27,8 @@ class MBTIResult(models.Model):
 class MBTIDescription(models.Model):
     type = models.CharField(max_length=4, unique=True)  # Ex: "INTJ", "ENFP"
     descricaoGeral = models.TextField()  # Descrição do tipo MBTI
-    tipo = models.TextField(max_length=46)
-    subtipo = models.TextField(max_length=46, unique=True)
+    classe = models.TextField(max_length=46)
+    subclasse = models.TextField(max_length=46, unique=True)
     salaDeAula = models.TextField(default='')
     gruposDeProjetos= models.TextField(default='')
     pessoaFamosa1 = models.ImageField(upload_to='personalities/', null=True, blank=True)
