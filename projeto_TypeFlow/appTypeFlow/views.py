@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import QuizForm
 from .models import Question, MBTIResult, MBTIDescription
 
@@ -154,7 +154,13 @@ def quiz_view(request, page=1):
 # View para exibir o resultado após a conclusão do teste
 def result_view(request):
     # Recuperar o tipo MBTI da sessão
+    mbti_result = get_object_or_404(MBTIResult, user=request.user)
     mbti_type = request.session.get('mbti_type')
+    mbti_description = MBTIDescription.objects.get(type=mbti_result.mbti_type)
+    context = {
+    'result': mbti_result,
+    'description': mbti_description,
+    }
 
 
     # Tentar obter a descrição do tipo MBTI do banco de dados
@@ -172,10 +178,7 @@ def result_view(request):
         del request.session['quizProgress']
 
     # Renderizar a página de resultados com as informações do MBTI
-    return render(request, 'testes/result.html', {
-        'mbti_info': mbti_info,
-        'result': result, # Enviar 'result' para o template
-    })
+    return render(request, 'testes/result.html', context)
 
 # Outras views para redirecionar para a página inicial do teste
 def home_aluno(request):

@@ -16,7 +16,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      background-color: #fdc350;
+      background-color: {{ description.background_color }};
     }
 
     /* barra de navegação */
@@ -48,7 +48,7 @@
     .nav-title {
       font-size: 45px;
       font-weight: bold;
-      color: #FFA33F;
+      color: {{ description.primary_color }};
       text-align: center;
     }
 
@@ -69,7 +69,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      background-color: #333;
+      background-color: {{ description.sidebar_color }};
       overflow-x: hidden;
       transition: 0.5s;
       padding-top: 60px;
@@ -194,7 +194,7 @@
       font-size: 40px;
       font-weight: bold;
       margin-bottom: 10px;
-      color: #FFA33F;
+      color: {{ description.primary_color }};
       text-align: center;
     }
 
@@ -202,7 +202,7 @@
       font-size: 25px;
       font-weight: bold;
       margin-bottom: 10px;
-      color: #FFA33F;
+      color: #{{ description.primary_color }};
     }
 
     .mbti-info p {
@@ -285,24 +285,27 @@
 
     <div class="menu">
       <button onclick="showContent('section1')">Resultado</button>
-      <button onclick="showContent('section2')">Entendendo um {{ result.mbti_info.type }}</button>
+      <button onclick="showContent('section2')">Entendendo um {{ description.type }}</button>
       <button onclick="showContent('section3')">Curiosidades</button>
     </div>
 
     <div class="content-container">
       <div id="section1" class="mbti-info">
         <h3 class="subtitulo">Parabéns! Você concluiu seu teste MBTI.</h3>
-        <h3>Seu perfil: {{ result.mbti_info.type }}</h3>
+        <h3>Seu perfil: {{ description.type }}</h3>
+        <h3 class="subtitulo">{{ description.classe }} - {{ description.subclasse }}</h3>
         <p class="minidesc">Data do Teste: {{ result.date_taken }}</p>
-        <p>{{ mbti_info.descrição_geral }}</p>
         <h3 class="subtitulo">Visão geral</h3>
+        <p>{{ description.descricaoGeral }}</p>
       </div>
 
       <div id="section2" class="mbti-info">
         <h3>Entenda sua personalidade</h3>
         <h3 class="subtitulo">Cada sigla</h3>
         <h3 class="subtitulo">Em sala de aula</h3>
+        <p>{{ description.salaDeAula }}</p>
         <h3 class="subtitulo">Em grupos de projetos</h3>
+        <p>{{ description.gruposDeProjetos }}</p>
       </div>
 
       <div id="section3" class="mbti-info">
@@ -313,15 +316,15 @@
 
           <div class="imagens">
             <div>
-              <img src="{{ mbti_info.famous_person_image.url }}" alt="Personalidade Famosa" class="famous-person">
+              <img src="{{ description.pessoaFamosa1 }}" alt="Personalidade Famosa" class="famous-person">
               <p>nome</p>
             </div>
             <div>
-              <img src="{{ mbti_info.famous_person_image.url }}" alt="Personalidade Famosa" class="famous-person">
+              <img src="{{ description.pessoaFamosa2 }}" alt="Personalidade Famosa" class="famous-person">
               <p>nome</p>
             </div>
             <div>
-              <img src="{{ mbti_info.famous_person_image.url }}" alt="Personalidade Famosa" class="famous-person">
+              <img src="{{ description.pessoaFamosa3 }}" alt="Personalidade Famosa" class="famous-person">
               <p>nome</p>
             </div>
           </div>
