@@ -14,10 +14,20 @@ def login_usuario(request):
             login(request, user)
             if user.is_staff:
                 return redirect ('/professor/') # Redireciona professores para a página deles
-        return redirect('/aluno/')  # Redireciona alunos para a página deles
+        return redirect('/home_aluno')  # Redireciona alunos para a página deles
     else:
         messages.error(request, 'Usuário ou senha inválidos.')
     return render(request, 'login/cadastro/login.html')
+
+from django.shortcuts import render
+
+def cadastro(request):
+    # Aqui você pode adicionar a lógica para lidar com o cadastro
+    if request.method == "POST":
+        # Processa os dados do formulário aqui
+        pass
+    return render(request, 'login/cadastro/cadastro.html')
+
 
 def user_logout(request):
     logout(request)
