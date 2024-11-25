@@ -157,20 +157,35 @@
                     <button type="button" id="alunoButton" class="btn-option" data-role="aluno">Aluno</button>
                 </div>
             </div>
-            <form id="registerForm">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" placeholder="Digite seu nome" required>
-
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Digite seu email" required>
-
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" placeholder="Digite sua senha" required>
-
-                <label for="confirmSenha">Confirmar Senha</label>
-                <input type="password" id="confirmSenha" placeholder="Confirme sua senha" required>
-
-                <button type="submit" class="register-button">Cadastrar</button>
+            <!-- Exibição de mensagens de erro/sucesso -->
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Formulário de cadastro -->
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_nome" class="form-label">Nome</label>
+            {{ form.nome }}
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email }}
+        </div>
+        <div class="mb-3">
+            <label for="id_senha" class="form-label">Senha</label>
+            {{ form.senha }}
+        </div>
+        <div class="mb-3">
+            <label for="id_confirmar_senha" class="form-label">Confirmar Senha</label>
+            {{ form.confirmar_senha }}
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
 
             <a href="login.html" class="login-link">Já tem uma conta? Faça login</a>

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import QuizForm
+from .forms import QuizForm, CadastroForm
 from .models import Pergunta, resultadoMBTI
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 def login_usuario(request):
     if request.method == 'POST':
@@ -22,11 +23,34 @@ def login_usuario(request):
 from django.shortcuts import render
 
 def cadastro(request):
-    # Aqui você pode adicionar a lógica para lidar com o cadastro
     if request.method == "POST":
-        # Processa os dados do formulário aqui
-        pass
-    return render(request, 'login/cadastro/cadastro.html')
+        # Inicializa o formulário com os dados enviados
+        form = CadastroForm(request.POST)
+        if form.is_valid():
+            # Se os dados forem válidos, cria o usuário
+            nome = form.cleaned_data["nome"]
+            email = form.cleaned_data["email"]
+            senha = form.cleaned_data["senha"]
+
+            try:
+                # Criar o usuário no banco de dados
+                user = User.objects.create_user(username=email, email=email, password=senha)
+                user.first_name = nome
+                user.save()
+
+                messages.success(request, "Cadastro realizado com sucesso! Faça login para continuar.")
+                return redirect("login_usuario")  # Substitua pelo nome da rota de login
+            except Exception as e:
+                messages.error(request, f"Erro ao criar conta: {str(e)}")
+        else:
+            # Se o formulário não for válido, exibe os erros
+            messages.error(request, "Por favor, corrija os erros no formulário.")
+    else:
+        # Para requisições GET, inicializa um formulário vazio
+        form = CadastroForm()
+
+    # Renderiza o template com o formulário
+    return render(request, 'login/cadastro/cadastro.html', {'form': form})
 
 
 def user_logout(request):
