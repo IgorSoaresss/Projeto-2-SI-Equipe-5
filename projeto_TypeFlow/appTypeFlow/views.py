@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import QuizForm, CadastroForm
-from .models import Question, resultadoMBTI
+from .models import Question, MBTIResult, MBTIDescription
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -63,14 +62,30 @@ def calculate_mbti(answers):
     # Dicionário para armazenar as pontuações para cada dimensão MBTI
     scores = {'E': 0, 'I': 0, 'S': 0, 'N': 0, 'T': 0, 'F': 0, 'J': 0, 'P': 0}
 
-    # Loop para somar pontuações com base nas respostas dadas
     for question_id, choice in answers.items():
-        # Obter a pergunta correspondente a partir do ID
         question = Question.objects.get(id=question_id.split('_')[-1])
 
-        # Incrementar a pontuação dependendo da dimensão da pergunta
+        # Incrementar a pontuação dependendo da escolha (E/I, S/N, T/F, J/P)
         if question.dimension == 'EI':
-            scores[choice] += 1
+            if choice == 'E':
+                scores['E'] += 1
+            else:
+                scores['I'] += 1
+        elif question.dimension == 'SN':
+            if choice == 'S':
+                scores['S'] += 1
+            else:
+                scores['N'] += 1
+        elif question.dimension == 'TF':
+            if choice == 'T':
+                scores['T'] += 1
+            else:
+                scores['F'] += 1
+        elif question.dimension == 'JP':
+            if choice == 'J':
+                scores['J'] += 1
+            else:
+                scores['P'] += 1
 
     # Construir o tipo MBTI com base nas pontuações acumuladas
     mbti_type = (
@@ -81,6 +96,7 @@ def calculate_mbti(answers):
     )
 
     return mbti_type
+
 
 # View principal para o teste de MBTI
 def quiz_view(request, page=1):
@@ -151,7 +167,10 @@ def quiz_view(request, page=1):
 
     # Emparelhar perguntas com rótulos
     labels = all_labels[start_index:end_index]
-    question_label_pairs = zip(questions, labels)
+    question_label_pairs = [
+        {'question': question, 'label_a': label[0], 'label_b': label[1]}
+        for question, label in zip(questions, labels)
+    ]
 
     # Inicializar o formulário com as perguntas da página atual
     form = QuizForm(request.POST or None, questions=questions)
@@ -174,7 +193,7 @@ def quiz_view(request, page=1):
                 request.session['mbti_type'] = mbti_type
 
                 # Salvar o resultado no banco de dados
-                resultadoMBTI.objects.create(user=None, mbti_type=mbti_type)
+                MBTIResult.objects.create(user=None, mbti_type=mbti_type)
 
                 # Redirecionar para a página de resultados
                 return redirect('result_view')
@@ -190,19 +209,31 @@ def quiz_view(request, page=1):
 # View para exibir o resultado após a conclusão do teste
 def result_view(request):
     # Recuperar o tipo MBTI da sessão
+    mbti_result = get_object_or_404(MBTIResult, user=request.user)
     mbti_type = request.session.get('mbti_type')
+    mbti_description = MBTIDescription.objects.get(type=mbti_result.mbti_type)
+    context = {
+    'result': mbti_result,
+    'description': mbti_description,
+    }
 
-    # Tentar obter o último resultado salvo no banco de dados
+
+    # Tentar obter a descrição do tipo MBTI do banco de dados
     try:
-        result = resultadoMBTI.objects.latest('date_taken')
-    except resultadoMBTI.DoesNotExist:
-        result = None
+        mbti_info = MBTIDescription.objects.get(type=mbti_type)
+    except MBTIDescription.DoesNotExist:
+        mbti_info = None
 
-    # Limpar o progresso da sessão ao finalizar o teste
+        # Buscar os dados do último teste para o usuário logado
+    user = request.user if request.user.is_authenticated else None
+    result = MBTIResult.objects.filter(user=user).last()
+
+    # Limpar o progresso da sessão após o teste
     if 'quizProgress' in request.session:
         del request.session['quizProgress']
 
-    return render(request, 'testes/result.html', {'mbti_type': mbti_type, 'result': result})
+    # Renderizar a página de resultados com as informações do MBTI
+    return render(request, 'testes/result.html', context)
 
 # Outras views para redirecionar para a página inicial do teste
 def home_aluno(request):
