@@ -9,4 +9,6 @@ urlpatterns = [
     path('teste4_mbti/', views.teste4_mbti, name='teste4_mbti'),
     path('quiz/<int:page>/', views.quiz_view, name='quiz_view'),
     path('result/', views.result_view, name='result_view'),
+    path('cadastro/', views.cadastro, name='cadastro'),
+    path("login/", views.login_usuario, name="login_usuario"),
     ]
