@@ -8,7 +8,6 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome
     
-<<<<<<< HEAD
 class Question(models.Model):
     text = models.CharField(max_length=255)
     dimension = models.CharField(max_length=2, choices=[
@@ -17,11 +16,6 @@ class Question(models.Model):
         ('TF', 'Thinking/Feeling'),
         ('JP', 'Judging/Perceiving'),
     ])
-=======
-class Pergunta(models.Model):
-    texto = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=50)
->>>>>>> feature-login
 
 
     def __str__(self):
@@ -29,7 +23,7 @@ class Pergunta(models.Model):
 
 class resposta(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+    pergunta = models.ForeignKey(Question, on_delete=models.CASCADE)
     resposta = models.CharField(max_length=1) 
 
     def __str__(self):
