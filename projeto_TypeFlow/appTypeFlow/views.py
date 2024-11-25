@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import QuizForm, CadastroForm
-from .models import Pergunta, resultadoMBTI
+from .models import Question, resultadoMBTI
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -66,7 +66,7 @@ def calculate_mbti(answers):
     # Loop para somar pontuações com base nas respostas dadas
     for question_id, choice in answers.items():
         # Obter a pergunta correspondente a partir do ID
-        question = Pergunta.objects.get(id=question_id.split('_')[-1])
+        question = Question.objects.get(id=question_id.split('_')[-1])
 
         # Incrementar a pontuação dependendo da dimensão da pergunta
         if question.dimension == 'EI':
@@ -92,8 +92,8 @@ def quiz_view(request, page=1):
     end_index = start_index + questions_per_page
 
     # Obter as perguntas do banco de dados para a página atual
-    questions = Pergunta.objects.all()[start_index:end_index]
-    total_questions = Pergunta.objects.count()  # Número total de perguntas no teste
+    questions = Question.objects.all()[start_index:end_index]
+    total_questions = Question.objects.count()  # Número total de perguntas no teste
 
     # Lista de rótulos para as opções das perguntas
     all_labels = [

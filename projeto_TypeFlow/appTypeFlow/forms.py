@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pergunta
+from .models import Question
 
 class QuizForm(forms.Form):
     def __init__(self, *args, questions=None, **kwargs):
