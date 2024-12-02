@@ -184,6 +184,10 @@ def result_view(request):
 def home_aluno(request):
     return render(request, 'aluno/home_aluno.html')
 
+# Redirecionar para a home do professor
+def home_professor(request):
+    return render(request, 'professor/home_professor.html')
+
 # Redirecionar para a página 1 do teste
 def teste1_mbti(request):
     return redirect('quiz_view', page=1)
