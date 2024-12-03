@@ -188,6 +188,12 @@ def home_aluno(request):
 def home_professor(request):
     return render(request, 'professor/home_professor.html')
 
+def professor_turmas(request):
+    return render(request, 'professor/turmas.html')
+
+def turmas_cadastro(request):
+    return render(request, 'professor/turmasCadastro.html')
+
 # Redirecionar para a página 1 do teste
 def teste1_mbti(request):
     return redirect('quiz_view', page=1)

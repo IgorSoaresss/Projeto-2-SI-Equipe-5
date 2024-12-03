@@ -43,3 +43,7 @@ class MBTIDescription(models.Model):
 
     def __str__(self):
         return self.type
+
+class turmas(models.Model):
+    curso = models.CharField(max_length=3)
+    classe = models.CharField(max_length=1)

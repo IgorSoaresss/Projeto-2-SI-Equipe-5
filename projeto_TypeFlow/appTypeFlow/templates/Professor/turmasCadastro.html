@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TypeFlow{% endblock %}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        /* Fonte com base no protótipo que criamos */
+      body {
+        font-family: "Quicksand", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #ffe9c0;
+      }
+
+      /* barra de navegação */
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: 120px;
+      }
+      
+      .nav-left, .nav-right {
+            flex: 1; /* Garante espaço igual nas laterais */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 150px; /* Define largura fixa para alinhamento */
+        }
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+       .nav-center {
+            flex: 2; /* Garante que o título ocupe o centro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-title {
+          font-size: 45px;
+          font-weight: bold;
+          color: #e17a00;
+          text-align: center;
+        }
+
+      .nav-icon {
+        color:#e17a00;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .logo {
+        height: 133px;
+        cursor: pointer;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: #cc6f00;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 1000;
+      }
+
+      .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .sidebar a:hover {
+        background-color: #e17a00;
+      }
+
+      .closebtn {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        font-size: 36px;
+        margin-left: 50px;
+        color: white;
+        cursor: pointer;
+      }
+
+      main {
+        padding: 20px;
+        text-align: center;
+      }
+
+      /*estilização do footer*/
+      .footer {
+        background-color: #333;
+        color: #e17a00;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer p {
+        font-size: 14px;
+      }
+    </style>
+</head>
+<body>
+    <!-- Construção com base no protótipo da Barra de Navegação -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home_aluno' %}">
+                <img src="{% static 'img/logoAtt.png' %}" alt="TypeFlow Logo" class="logo" />
+            </a>
+        </div>
+
+        <div class="nav-center">
+            <h1 class="nav-title">TypeFlow</h1>
+        </div>
+
+        <div class="nav-right">
+          <div class="nav-icon" onclick="toggleSidebar()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+              </svg>
+          </div>
+      </div>
+    </nav>
+
+    <!-- Barra Lateral (Sidebar) -->
+    <div id="sidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+      <a href="#">Perfil</a>
+      <a href="#">Contate-nos</a>
+      <a href="#">Configurações</a>
+    </div>
+
+    <main>
+        <h2>CADASTRAR TURMA</h2>
+        <p>
+            Insira as informações pedidas abaixo.
+        </p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-left">
+            <p>&copy; 2024 TypeFlow. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script para controlar a Sidebar -->
+    <script>
+        function toggleSidebar() {
+          const sidebar = document.getElementById("sidebar");
+          sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        }
+    </script>
+</body>
+</html>

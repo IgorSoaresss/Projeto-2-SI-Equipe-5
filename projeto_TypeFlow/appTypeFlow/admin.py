@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, MBTIDescription, MBTIResult
+from .models import Question, MBTIDescription, MBTIResult, turmas
 
 # Registrar o modelo 'Question'
 admin.site.register(Question)
@@ -10,3 +10,8 @@ admin.site.register(MBTIResult)
 class MBTIDescriptionAdmin(admin.ModelAdmin):
     list_display = ('type', 'descricaoGeral', 'classe', 'subclasse', 'salaDeAula', 'gruposDeProjetos','primary_color', 'background_color', 'sidebar_color')
     search_fields = ('type',)
+
+@admin.register(turmas)
+class turmasAdmin(admin.ModelAdmin):
+    list_display = ('curso', 'classe')
+    search_fields = ('curso',)
