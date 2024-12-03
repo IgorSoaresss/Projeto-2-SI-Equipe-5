@@ -194,7 +194,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        max-width: 50%;
       }
 
       canvas {
@@ -247,13 +246,17 @@
         cursor: pointer;
         position: relative; /* Necessário para posicionar a linha */
         transition: color 0.3s ease;
-        color: #fff;
+        color: darkred;
       }
 
       .menu button:hover {
-        color: darkred; /* Cor ao passar o mouse */
+        color: #fff; /* Cor ao passar o mouse */
       }
       
+      .menu button.active {
+        color: #fff;
+      }
+
       .menu button.active::after {
         content: "";
         position: absolute;
@@ -261,6 +264,7 @@
         left: 0;
         right: 0;
         height: 3px;
+        color: #fff;
         background-color: #fff; /* Cor da linha visível no botão ativo*/
         border-radius: 3px;
         transform: scaleX(1); /* Torna a linha visível */
@@ -295,7 +299,7 @@
 
       <div class="nav-right">
         <div class="nav-icon" onclick="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
           </svg>
         </div>
@@ -413,8 +417,10 @@
         </div>
 
         <!-- Gráfico de Progresso -->
-        <div id="section3" class="progress-chart">
-          <canvas id="progressoGrafico"></canvas>
+        <div id="section3" class="mbti-info">
+          <div class="progress-chart">
+            <canvas id="progressoGrafico"></canvas>
+          </div>
         </div>
       </div>
     </main>
@@ -438,11 +444,11 @@
     <script>
       // Dados do gráfico de progresso (exemplo: 50% concluído)
       const progressoDados = {
-        labels: ["Concluído", "Restante"],
+        labels: ["Restante", "Concluído"],
         datasets: [
           {
-            data: [70, 30],
-            backgroundColor: ["#4CAF50", "#E0E0E0"],
+            data: [30, 70],
+            backgroundColor: ["#ffe9c0", "#925000"],
           },
         ],
       };
