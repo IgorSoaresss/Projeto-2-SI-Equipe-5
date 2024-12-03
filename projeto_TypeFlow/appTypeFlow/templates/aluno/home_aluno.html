@@ -32,29 +32,31 @@
       }
       
       .nav-left, .nav-right {
-            flex: 1; /* Garante espaço igual nas laterais */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 150px; /* Define largura fixa para alinhamento */
-        }
+        flex: 1; /* Garante espaço igual nas laterais */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 150px; /* Define largura fixa para alinhamento */
+      }
+
       .nav-right {
         display: flex;
         align-items: center;
       }
-       .nav-center {
-            flex: 2; /* Garante que o título ocupe o centro */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .nav-title {
-          font-size: 45px;
-          font-weight: bold;
-          color: #925000;
-          text-align: center;
-        }
+      .nav-center {
+        flex: 2; /* Garante que o título ocupe o centro */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .nav-title {
+        font-size: 45px;
+        font-weight: bold;
+        color: #925000;
+        text-align: center;
+      }
 
       .nav-icon {
         color: #925000;
@@ -156,6 +158,7 @@
         text-align: justify;
         max-width: 100%;
       }
+
       .mbti-info h3 {
         font-size: 40px;
         font-weight: bold;
@@ -248,20 +251,20 @@
       }
 
       .menu button:hover {
-       color: darkred; /* Cor ao passar o mouse */
+        color: darkred; /* Cor ao passar o mouse */
       }
       
       .menu button.active::after {
-       content: "";
-       position: absolute;
-       bottom: -5px;
-       left: 0;
-       right: 0;
-       height: 3px;
-       background-color: #fff; /* Cor da linha visível no botão ativo*/
-       border-radius: 3px;
-       transform: scaleX(1); /* Torna a linha visível */
-       transition: all 0.4s ease; /* Transição suave da barrinha */
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background-color: #fff; /* Cor da linha visível no botão ativo*/
+        border-radius: 3px;
+        transform: scaleX(1); /* Torna a linha visível */
+        transition: all 0.4s ease; /* Transição suave da barrinha */
       }
 
       .menu button::after {
@@ -280,22 +283,22 @@
   <body>
     <!-- Construção com base no protótipo da Barra de Navegação -->
     <nav class="navbar">
-        <div class="nav-left">
-            <a href="{% url 'home_aluno' %}">
-                <img src="{% static 'img/Logo-TypeFlow.jpg' %}" alt="TypeFlow Logo" class="logo" />
-            </a>
-        </div>
+      <div class="nav-left">
+        <a href="{% url 'home_aluno' %}">
+          <img src="{% static 'img/logoAtt.png' %}" alt="TypeFlow Logo" class="logo" />
+        </a>
+      </div>
 
-        <div class="nav-center">
-            <h1 class="nav-title">TypeFlow</h1>
-        </div>
+      <div class="nav-center">
+        <h1 class="nav-title">TypeFlow</h1>
+      </div>
 
-        <div class="nav-right">
-          <div class="nav-icon" onclick="toggleSidebar()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-              </svg>
-          </div>
+      <div class="nav-right">
+        <div class="nav-icon" onclick="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
+        </div>
       </div>
     </nav>
 
@@ -324,7 +327,7 @@
         <button onclick="showContent('section3')">Seu progresso</button>
       </div>
       
-        <!-- Contêiner flexível para o texto e o gráfico -->
+      <!-- Contêiner flexível para o texto e o gráfico -->
       <div class="content-container">
         <!-- Bloco de texto explicativo -->
         <div id="section1" class="mbti-info">
