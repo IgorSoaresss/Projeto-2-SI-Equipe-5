@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question
+from .models import Question, Turmas
 
 class QuizForm(forms.Form):
     def __init__(self, *args, questions=None, **kwargs):
@@ -24,3 +24,14 @@ class QuizForm(forms.Form):
                     choices=choices,
                     widget=forms.RadioSelect
                 )
+
+class TurmaForm(forms.ModelForm):
+
+    class Meta:
+        model = Turmas
+        fields = ['curso', 'periodo', 'turma']
+        widgets = {
+            'curso': forms.Select(attrs={'class': 'form-select'}),  # Dropdown para cursos
+            'periodo': forms.Select(attrs={'class': 'form-select'}),  # Dropdown para períodos
+            'turma': forms.Select(attrs={'class': 'form-select'}),  # Dropdown para turmas
+        }

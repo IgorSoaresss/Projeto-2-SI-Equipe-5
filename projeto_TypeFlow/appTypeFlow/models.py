@@ -1,11 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-class Pessoa(models.Model):
-    nome = models.CharField(max_length=100)
-    idade = models.IntegerField()
-
-    def __str__(self):
-        return self.nome
     
 class Question(models.Model):
     text = models.CharField(max_length=255)
@@ -44,6 +38,34 @@ class MBTIDescription(models.Model):
     def __str__(self):
         return self.type
 
-class turmas(models.Model):
-    curso = models.CharField(max_length=3)
-    classe = models.CharField(max_length=1)
+class Turmas(models.Model):
+    CURSO_CHOICES = [
+        ('SI', 'Sistemas de Informação'),
+        ('CC', 'Ciência da Computação'),
+        ('ADS', 'Análise e Desenvolvimento de Sistemas'),
+        ('GTI', 'Gestão da Tecnologia da Informação'),
+        ('Design', 'Design'),
+    ]
+
+    PERIODO_CHOICES = [
+        (1, '1º Período'),
+        (2, '2º Período'),
+        (3, '3º Período'),
+        (4, '4º Período'),
+        (5, '5º Período'),
+        (6, '6º Período'),
+        (7, '7º Período'),
+        (8, '8º Período'),
+        (9, '9º Período'),
+        (10, '10º Período'),
+    ]
+
+    TURMA_CHOICES = [
+        ('A', 'Turma A'),
+        ('B', 'Turma B'),
+        ('C', 'Turma C'),
+    ]
+
+    curso = models.CharField(max_length=100, choices=CURSO_CHOICES)  # Dropdown para turmas
+    periodo = models.PositiveSmallIntegerField(choices=PERIODO_CHOICES, default='0')  # Dropdown para períodos
+    turma = models.CharField(max_length=100, choices=TURMA_CHOICES, default='X')

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import QuizForm
+from .forms import QuizForm, TurmaForm
 from .models import Question, MBTIResult, MBTIDescription
 
 # Função para calcular o tipo MBTI com base nas respostas
@@ -209,3 +209,14 @@ def teste3_mbti(request):
 # Redirecionar para a página 4 do teste
 def teste4_mbti(request):
     return redirect('quiz_view', page=4)
+
+def cadastroTurma(request):
+    # Inicializar o formulário com as perguntas da página atual
+    form = TurmaForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('home_professor')
+    
+    return render(request, 'Professor/turmasCadastro.html', {'form': form})
