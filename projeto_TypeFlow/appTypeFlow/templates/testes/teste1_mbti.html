@@ -5,6 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste de Personalidade</title>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    />
     <style>
       /* Estilos gerais */
       * {
@@ -17,7 +21,7 @@
       html {
         width: 100%;
         height: 100%;
-        font-family: Arial, sans-serif;
+        font-family: "Quicksand", sans-serif;
       }
 
       .container {
@@ -294,6 +298,12 @@
         if (currentQuestion < questionItems.length) {
           questionItems[currentQuestion].classList.remove("inactive");
           questionItems[currentQuestion].classList.add("fade-in");
+
+          // Rolando para a próxima pergunta de forma suave
+          questionItems[currentQuestion].scrollIntoView({
+            behavior: "smooth",
+            block: "center" // Você pode ajustar 'center' para 'start' ou 'end' dependendo do efeito desejado
+          });
         }
 
         updateProgress();

@@ -19,6 +19,11 @@
       background-color: {{ description.background_color }};
     }
 
+    h1 {
+      font-size: 50px;
+      padding: 130px 40px;
+    }
+
     /* barra de navegação */
     .navbar {
       display: flex;
@@ -181,6 +186,7 @@
     .mbti-info {
       flex: 1;
       padding: 15px;
+      margin-bottom: 25px;
       background-color: #f1f1f1;
       border-radius: 5px;
       font-size: 16px;
@@ -255,7 +261,7 @@
   <nav class="navbar">
     <div class="nav-left">
         <a href="{% url 'home_aluno' %}">
-            <img src="{% static 'img/Logo-TypeFlow.jpg' %}" alt="TypeFlow Logo" class="logo" />
+            <img src="{% static 'img/logoAtt.png' %}" alt="TypeFlow Logo" class="logo" />
         </a>
     </div>
 
@@ -265,7 +271,7 @@
 
     <div class="nav-right">
       <div class="nav-icon" onclick="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
           </svg>
       </div>
@@ -299,13 +305,24 @@
         <p>{{ description.descricaoGeral }}</p>
       </div>
 
-      <div id="section2" class="mbti-info">
-        <h3>Entenda sua personalidade</h3>
-        <h3 class="subtitulo">Cada sigla</h3>
-        <h3 class="subtitulo">Em sala de aula</h3>
-        <p>{{ description.salaDeAula }}</p>
-        <h3 class="subtitulo">Em grupos de projetos</h3>
-        <p>{{ description.gruposDeProjetos }}</p>
+      <div id="section2">
+        <h1>ENTENDA SUA PERSONALIDADE</h1>
+
+        <div class="mbti-info">
+          <h3>Cada sigla</h3>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <div class="mbti-info">
+          <h3>Como um se {{ description.type }} comporta?</h3>
+          <h3 class="subtitulo">Em sala de aula</h3>
+          <p>{{ description.salaDeAula }}</p>
+          <h3 class="subtitulo">Em grupos de projetos</h3>
+          <p>{{ description.gruposDeProjetos }}</p>
+        </div>
       </div>
 
       <div id="section3" class="mbti-info">
@@ -316,7 +333,7 @@
 
           <div class="imagens">
             <div>
-              <img src="{{ description.pessoaFamosa1 }}" alt="Personalidade Famosa" class="famous-person">
+              <img src="{{ description.pessoaFamosa1.url }}" alt="Personalidade Famosa" class="famous-person">
               <p>nome</p>
             </div>
             <div>
