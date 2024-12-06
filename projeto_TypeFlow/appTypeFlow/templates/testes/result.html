@@ -318,6 +318,7 @@
       <div id="section1" class="mbti-info">
         <h3 class="subtitulo">Parabéns! Você concluiu seu teste MBTI.</h3>
         <h3>Seu perfil: {{ description.type }}</h3>
+        <h3 class="subtitulo">MBTI resumido: {{ description.subtype }}</h3>
         <h3 class="subtitulo">{{ description.classe }} - {{ description.subclasse }}</h3>
         <p class="minidesc">Data do Teste: {{ result.date_taken }}</p>
         <h3 class="subtitulo">Visão geral</h3>
@@ -350,19 +351,6 @@
           que você. Quem sabe vocês não possam ter algum 
           talento em comum?
 
-          <div class="imagens">
-            <div>
-              <img src="{{ description.pessoaFamosa1.url }}" alt="Personalidade Famosa" class="famous-person">
-              <p>nome</p>
-            </div>
-            <div>
-              <img src="{{ description.pessoaFamosa2 }}" alt="Personalidade Famosa" class="famous-person">
-              <p>nome</p>
-            </div>
-            <div>
-              <img src="{{ description.pessoaFamosa3 }}" alt="Personalidade Famosa" class="famous-person">
-              <p>nome</p>
-            </div>
           </div>
         </p>
       </div>

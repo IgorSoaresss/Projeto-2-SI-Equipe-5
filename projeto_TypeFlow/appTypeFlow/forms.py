@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Turmas
+from .models import Question, Turmas, CustomUser
 
 class QuizForm(forms.Form):
     def __init__(self, *args, questions=None, **kwargs):
@@ -24,6 +24,26 @@ class QuizForm(forms.Form):
                     choices=choices,
                     widget=forms.RadioSelect
                 )
+
+class CadastroForm(forms.ModelForm):
+    confirmar_senha = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirme sua senha'}),
+        label="Confirmar Senha"
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ['nome', 'email', 'senha', 'turma', 'periodo']
+        widgets = {
+            'turma': forms.Select(choices=[('SI', 'Sistemas de Informação'), ...]),
+            'periodo': forms.NumberInput(attrs={'min': 1, 'max': 10}),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@cesar.school'):
+            raise forms.ValidationError("O e-mail deve ser do domínio '@cesar.school'.")
+        return email
 
 class TurmaForm(forms.ModelForm):
 

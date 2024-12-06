@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import QuizForm, TurmaForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from .forms import QuizForm, CadastroForm, TurmaForm
 from .models import Question, MBTIResult, MBTIDescription
 
 # Função para calcular o tipo MBTI com base nas respostas
@@ -138,7 +141,7 @@ def quiz_view(request, page=1):
                 request.session['mbti_type'] = mbti_type
 
                 # Salvar o resultado no banco de dados
-                MBTIResult.objects.create(user=None, mbti_type=mbti_type)
+                MBTIResult.objects.create(user = request.user, mbti_type=mbti_type)
 
                 # Redirecionar para a página de resultados
                 return redirect('result_view')
@@ -209,6 +212,55 @@ def teste3_mbti(request):
 # Redirecionar para a página 4 do teste
 def teste4_mbti(request):
     return redirect('quiz_view', page=4)
+
+def login_usuario(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_staff:
+                return redirect ('/professor/') # Redireciona professores para a página deles
+        return redirect('/home_aluno')  # Redireciona alunos para a página deles
+    else:
+        messages.error(request, 'Usuário ou senha inválidos.')
+    return render(request, 'login/cadastro/login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('/')
+
+def cadastro(request):
+    if request.method == "POST":
+        # Inicializa o formulário com os dados enviados
+        form = CadastroForm(request.POST)
+        if form.is_valid():
+            # Se os dados forem válidos, cria o usuário
+            nome = form.cleaned_data["nome"]
+            email = form.cleaned_data["email"]
+            senha = form.cleaned_data["senha"]
+
+            try:
+                # Criar o usuário no banco de dados
+                user = User.objects.create_user(username=email, email=email, password=senha)
+                user.first_name = nome
+                user.save()
+
+                messages.success(request, "Cadastro realizado com sucesso! Faça login para continuar.")
+                return redirect("login_usuario")  # Substitua pelo nome da rota de login
+            except Exception as e:
+                messages.error(request, f"Erro ao criar conta: {str(e)}")
+        else:
+            # Se o formulário não for válido, exibe os erros
+            messages.error(request, "Por favor, corrija os erros no formulário.")
+    else:
+        # Para requisições GET, inicializa um formulário vazio
+        form = CadastroForm()
+
+    # Renderiza o template com o formulário
+    return render(request, 'login/cadastro/cadastro.html', {'form': form})
 
 def cadastroTurma(request):
     # Inicializar o formulário com as perguntas da página atual

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-    
+
 class Question(models.Model):
     text = models.CharField(max_length=255)
     dimension = models.CharField(max_length=2, choices=[
@@ -16,10 +16,11 @@ class MBTIResult(models.Model):
     date_taken = models.DateTimeField(auto_now_add=True)  # Armazena a data do teste
 
     def __str__(self):
-        return f"{self.user.username} - {self.mbti_type} ({self.date_taken})"
+        return f"{self.user} - {self.mbti_type} ({self.date_taken})"
     
 class MBTIDescription(models.Model):
     type = models.CharField(max_length=4, unique=True)  # Ex: "INTJ", "ENFP"
+    subtype = models.CharField(max_length=2, default='')  # Ex: "INTJ", "ENFP"
     letra1 = models.CharField(max_length=1, default='')
     letra2 = models.CharField(max_length=1, default='')
     letra3 = models.CharField(max_length=1, default='')
@@ -41,6 +42,22 @@ class MBTIDescription(models.Model):
 
     def __str__(self):
         return self.type
+
+class CustomUser(models.Model):
+    nome = models.CharField(default='', max_length=50)
+    email = models.CharField(default='', max_length=30)
+    senha = models.CharField(default='', max_length=8)
+    turma = models.CharField(max_length=30, choices=[
+        ('SI', 'Sistemas de Informação'),
+        ('CC', 'Ciência da Computação'),
+        ('ADS', 'Análise e Desenvolvimento de Sistemas'),
+        ('GTI', 'Gestão da Tecnologia da Informação'),
+        ('Design', 'Design')
+    ])
+    periodo = models.PositiveIntegerField()
+
+    def str(self):
+        return f"{self.get_full_name()}"
 
 class Turmas(models.Model):
     CURSO_CHOICES = [
