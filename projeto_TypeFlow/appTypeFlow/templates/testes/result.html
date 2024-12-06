@@ -136,6 +136,25 @@
       text-align: center;
     }
 
+    .letrasEsq {
+      font-weight: 1000;
+      font-size: 200px;
+      margin-left: 60px;
+      max-width: 25%;
+    }
+
+    .textoEsq {
+      max-width: 75%;
+      text-align: right;
+    }
+
+    .letrasDir {
+      font-weight: 1000;
+      font-size: 200px;
+      text-align: right;
+      margin-right: 60px;
+    }
+
     .menu {
       margin-top: 20px;
       width: 100%;
@@ -310,10 +329,10 @@
 
         <div class="mbti-info">
           <h3>Cada sigla</h3>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div class="letrasEsq">{{ description.letra1 }}</div>
+          <div class="letrasDir">{{ description.letra2 }}</div>
+          <div class="letrasEsq">{{ description.letra3 }}</div>
+          <div class="letrasDir">{{ description.letra4 }}</div>
         </div>
 
         <div class="mbti-info">

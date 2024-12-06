@@ -20,6 +20,10 @@ class MBTIResult(models.Model):
     
 class MBTIDescription(models.Model):
     type = models.CharField(max_length=4, unique=True)  # Ex: "INTJ", "ENFP"
+    letra1 = models.CharField(max_length=1, default='')
+    letra2 = models.CharField(max_length=1, default='')
+    letra3 = models.CharField(max_length=1, default='')
+    letra4 = models.CharField(max_length=1, default='')
     descricaoGeral = models.TextField()  # Descrição do tipo MBTI
     classe = models.TextField(max_length=46)
     subclasse = models.TextField(max_length=46, unique=True)
